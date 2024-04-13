@@ -238,15 +238,15 @@ if (isset($_GET['update_id'])) {
         </nav>
 
         <div id="page-wrapper">
-            <div class="alert alert-default" style="color:white;background-color:#008CBA">
+            <!-- <div class="alert alert-default" style="color:white;background-color:#008CBA">
                 <center>
                     <h3> <span class="glyphicon glyphicon-glass"></span> Paint Mixing Tool</h3>
                 </center>
             </div>
 
-            <br />
+            <br /> -->
 
-            <div class="container-fluid">
+            <!-- <div class="container-fluid">
                 <div class="row">
                     <div class="col-md-6 col-sm-12">
                         <div id="result-color"></div>
@@ -340,7 +340,7 @@ if (isset($_GET['update_id'])) {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
     </div>
     <!-- /#wrapper -->
