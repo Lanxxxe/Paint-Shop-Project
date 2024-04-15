@@ -10,14 +10,14 @@
             </div>
             <div class="collapse navbar-collapse navbar-ex1-collapse">
                 <ul class="nav navbar-nav side-nav">
-                    <li><a href="../index.php"> &nbsp; <span class='glyphicon glyphicon-home'></span> Home</a></li>
-                    <li><a href="../shop.php?id=1"> &nbsp; <span class='glyphicon glyphicon-shopping-cart'></span> Shop Now</a></li>
-                    <li class="active"><a href="../paint-mixer.php"> &nbsp; <span class='glyphicon glyphicon-glass'></span> Paint Mixer</a></li>
-                    <li><a href="../cart_items.php"> &nbsp; <span class='fa fa-cart-plus'></span> Shopping Cart Lists</a></li>
-                    <li><a href="../orders.php"> &nbsp; <span class='glyphicon glyphicon-list-alt'></span> My Ordered Items</a></li>
-                    <li><a href="../view_purchased.php"> &nbsp; <span class='glyphicon glyphicon-eye-open'></span> Previous Items Ordered</a></li>
+                    <li><a href="./index.php"> &nbsp; <span class='glyphicon glyphicon-home'></span> Home</a></li>
+                    <li><a href="./shop.php?id=1"> &nbsp; <span class='glyphicon glyphicon-shopping-cart'></span> Shop Now</a></li>
+                    <li class="active"><a href="./paint-mixer.php"> &nbsp; <span class='glyphicon glyphicon-glass'></span> Paint Mixer</a></li>
+                    <li><a href="./cart_items.php"> &nbsp; <span class='fa fa-cart-plus'></span> Shopping Cart Lists</a></li>
+                    <li><a href="./orders.php"> &nbsp; <span class='glyphicon glyphicon-list-alt'></span> My Ordered Items</a></li>
+                    <li><a href="./view_purchased.php"> &nbsp; <span class='glyphicon glyphicon-eye-open'></span> Previous Items Ordered</a></li>
                     <li><a data-toggle="modal" data-target="#setAccount"> &nbsp; <span class='fa fa-gear'></span> Account Settings</a></li>
-                    <li><a href="../logout.php"> &nbsp; <span class='glyphicon glyphicon-off'></span> Logout</a></li>
+                    <li><a href="./logout.php"> &nbsp; <span class='glyphicon glyphicon-off'></span> Logout</a></li>
 
 
                 </ul>
