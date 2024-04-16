@@ -28,7 +28,7 @@ function visualizeRoom(imageURL) {
 function drawRect(ctx, data) {
   ctx.beginPath();
   ctx.rect(data.x, data.y, data.width, data.height);
-  ctx.fillStyle = "rgb(237, 237, 237)";
+  ctx.fillStyle = "lightseagreen";// "rgb(237, 237, 237)";
   ctx.fill();
   ctx.closePath();
 }
