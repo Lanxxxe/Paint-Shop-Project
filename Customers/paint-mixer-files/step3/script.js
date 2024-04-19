@@ -1,6 +1,6 @@
 
 function visualizeRoom(imageURL) {
-  const canvas = document.getElementById("myCanvas");
+  const canvas = document.getElementById("visual-canvas");
   const ctx = canvas.getContext("2d");
 
   const img = new Image();
@@ -18,6 +18,7 @@ function visualizeRoom(imageURL) {
 
     drawRect(ctx, rectData);
     ctx.drawImage(img, 0, 0);
+    
   }, { once: true });
 
   img.crossOrigin = "Anonymous";
@@ -33,4 +34,4 @@ function drawRect(ctx, data) {
   ctx.closePath();
 }
 
-visualizeRoom("PPG5982V_Thumb.png");
+visualizeRoom("../images/living-room.png");
