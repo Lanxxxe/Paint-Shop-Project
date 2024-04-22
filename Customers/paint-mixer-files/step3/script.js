@@ -151,9 +151,7 @@ function copyRoomObjectGroup(roomObjs) {
   const copiedObj = {};
   Object.keys(roomObjs).forEach(key => {
     const obj = roomObjs[key];
-    if (typeof obj === 'object' && obj !== null) {
-      copiedObj[key] = obj.createCopy();
-    }
+    copiedObj[key] = obj.createCopy();
   });
 
   return copiedObj;
@@ -175,31 +173,36 @@ class VisualizerHistory {
 
   addState(state) {
     const copiedState = copyRoomObjectGroup(state);
+    this.#redoStates = [];
     this.#states.push(copiedState);
   }
 
   undo() {
-    if (this.#states.length === 0) {
+    if (this.#states.length <= 1) {
       return null;
     }
 
     const state = this.#states.pop();
-    console.log(this.#redoStates.push(state));
-    console.log(this.#redoStates);
-    return state;
+    this.#redoStates.push(state);
+
+    const currentState = this.#states[this.#states.length-1];
+    return copyRoomObjectGroup(currentState);
   }
 
   redo() {
-    if (this.#redoStates.length === 0) {
+    if (this.#redoStates.length <= 0) {
       return null;
     }
 
     const state = this.#redoStates.pop();
     this.#states.push(state);
-    return state;
+
+    const currentState = this.#states[this.#states.length-1];
+    return copyRoomObjectGroup(currentState);
   }
 
 }
+
 
 // The current color picked it is used in the line 200 if you make any changes to it go to line 200
 let currentColor = "lightgreen";
@@ -213,22 +216,22 @@ const visualizer = (function () {
 
   /**
    * @var defaultPixelData use to store the default image data to use later
-   * @var roomObj This objects is use to associate images with their object identifier.
-   * @var currentRoomObj store the objects that identify the parts of image 
+   * @var currentState store the objects that identify the parts of image 
    */
   
   const history = new VisualizerHistory();
   let defaultPixelData;
-  let currentRoomObjs;
+  let currentState;
 
-  function setCurrentRoomObject(key) {
+  function initCurrentState(key) {
     if (key === livingroomPath) {
-      currentRoomObjs = livingRoomObject.objectGroup;
+      currentState = livingRoomObject.objectGroup;
       defaultColor = livingRoomObject.defaultColor;
     } else if(key === bedroomPath) {
-      currentRoomObjs = bedRoomObject.objectGroup;
+      currentState = bedRoomObject.objectGroup;
       defaultColor = bedRoomObject.defaultColor;
     }
+    history.addState(currentState);
   }
 
   function clearCanvas() {
@@ -236,7 +239,7 @@ const visualizer = (function () {
   }
 
   function drawObjects() {
-    Object.values(currentRoomObjs).forEach((obj) => {
+    Object.values(currentState).forEach((obj) => {
       obj.draw(ctx);
     });
   }
@@ -259,7 +262,7 @@ const visualizer = (function () {
   };
 
   function setImage(imageURL) {
-    setCurrentRoomObject(imageURL);
+    initCurrentState(imageURL);
     img.crossOrigin = "Anonymous";
     img.src = imageURL;
   };
@@ -278,7 +281,7 @@ const visualizer = (function () {
     }
 
     // Iterate through each objects that been identified in the image and change the add a color on the top of it if it is hovered
-    Object.values(currentRoomObjs).forEach((obj) => {
+    Object.values(currentState).forEach((obj) => {
       if (obj.isPointed(x, y)) {
         clearCanvas();
         drawObjects();
@@ -301,10 +304,10 @@ const visualizer = (function () {
     }
 
     // Iterate through each object that benn identified in the image and change the color of the clicked object or part
-    Object.values(currentRoomObjs).forEach((obj) => {
+    Object.values(currentState).forEach((obj) => {
       if (obj.isPointed(x, y)) {
-        history.addState(currentRoomObjs);
         obj.fillColor = currentColor;
+        history.addState(currentState);
       }
     });
 
@@ -313,9 +316,10 @@ const visualizer = (function () {
 
   function reset() {
     history.clear();
-    Object.values(currentRoomObjs).forEach(obj => {
+    Object.values(currentState).forEach(obj => {
       obj.fillColor = defaultColor;
     });
+    history.addState(currentState);
     render();
   }
 
@@ -324,7 +328,7 @@ const visualizer = (function () {
     if (!prevState) {
       return;
     }
-    currentRoomObjs = prevState;
+    currentState = prevState;
     render();
   }
 
@@ -333,7 +337,7 @@ const visualizer = (function () {
     if (!nextState) {
       return;
     }
-    currentRoomObjs = nextState;
+    currentState = nextState;
     render();
   }
 
