@@ -1,10 +1,17 @@
 class RoomObject {
   #paths;
-  constructor(paths, fillColor = "rgb(0,0,0)", strokeColor = "rgb(0,0,0)", strokeWidth = 0) {
+  #name;
+
+  constructor(paths, name, fillColor = "rgb(0,0,0)", strokeColor = "rgb(0,0,0)", lineWidth = 0) {
     this.#paths = paths;
     this.fillColor = fillColor;
     this.strokeColor = strokeColor;
-    this.strokeWidth = strokeWidth;
+    this.lineWidth = lineWidth;
+    this.#name = name;
+  }
+
+  getName() {
+    return this.#name;
   }
 
   getPaths() {
@@ -19,7 +26,7 @@ class RoomObject {
     }
     ctx.fillStyle = this.fillColor;
     ctx.strokeStyle = this.strokeColor;
-    ctx.lineWidth = this.strokeWidth;
+    ctx.lineWidth = this.lineWidth;
     ctx.fill();
     ctx.closePath();
   }
@@ -37,6 +44,10 @@ class RoomObject {
     return inside;
   }
 
+  createCopy() {
+    return new RoomObject(this.#paths, this.#name, this.fillColor, this.strokeColor, this.lineWidth);
+  }
+
   static drawRoomObject(ctx, object, fill = "rgb(0,0,0)", stroke = "rgb(0,0,0)", lineWidth = 0) {
     const paths = object.getPaths();
     ctx.beginPath();
@@ -51,7 +62,6 @@ class RoomObject {
     ctx.closePath();
   }
 };
-
 
 // Identify the parts in living room image that can be fill with colors
 const livingRoomObject = (() => {
@@ -71,7 +81,7 @@ const livingRoomObject = (() => {
     { x: 428, y: 1.4285707473754883 },
     { x: 428, y: 0 },
     { x: 273.14286041259766, y: 0 },
-  ], defaultColor);
+  ], "wall", defaultColor);
 
   // Window border in the left
   const leftWindowBorder = new RoomObject([
@@ -82,7 +92,7 @@ const livingRoomObject = (() => {
     { x: 177, y: 247 },
     { x: 0, y: 247 },
     { x: 0, y: 0 },
-  ], defaultColor);
+  ], "leftWindowBorder", defaultColor);
 
   // Window border in the right
   const rightWindowBorder = new RoomObject([
@@ -93,11 +103,13 @@ const livingRoomObject = (() => {
     { x: 720.4285888671875, y: 247 },
     { x: 720.4285888671875, y: 0 },
     { x: 428, y: 0 },
-  ], defaultColor);
+  ], "rightWindowBorder", defaultColor);
 
-  return { wall, leftWindowBorder, rightWindowBorder };
+  return {
+    objectGroup: { wall, leftWindowBorder, rightWindowBorder },
+    defaultColor,
+  }
 })();
-
 
 // Identify the parts in bed room image that can be colored 
 const bedRoomObject = (() => {
@@ -107,7 +119,7 @@ const bedRoomObject = (() => {
     { x: 116.8, y: 0 },
     { x: 116.8, y: 295 },
     { x: 0, y: 320 },
-  ], defaultColor);
+  ], "leftWall", defaultColor);
 
   const rightWall = new RoomObject([
     { x: 117, y: 0 },
@@ -119,7 +131,7 @@ const bedRoomObject = (() => {
     { x: 340, y: 400 },
     { x: 117, y: 295, },
     { x: 117, y: 0 },
-  ], defaultColor);
+  ], "rightWall", defaultColor);
 
   const windowBorder = new RoomObject([
     { x: 513, y: 69.6 },
@@ -127,12 +139,67 @@ const bedRoomObject = (() => {
     { x: 340.15, y: 200 },
     { x: 512.8, y: 200 },
     { x: 512.8, y: 70 },
-  ], defaultColor);
+  ], "windowBorder", defaultColor);
 
-  return { leftWall, rightWall, windowBorder };
+  return {
+    objectGroup: { leftWall, rightWall, windowBorder },
+    defaultColor,
+  };
 })();
 
+function copyRoomObjectGroup(roomObjs) {
+  const copiedObj = {};
+  Object.keys(roomObjs).forEach(key => {
+    const obj = roomObjs[key];
+    if (typeof obj === 'object' && obj !== null) {
+      copiedObj[key] = obj.createCopy();
+    }
+  });
 
+  return copiedObj;
+}
+
+class VisualizerHistory {
+  #states;
+  #redoStates;
+
+  constructor () {
+    this.#states = [];
+    this.#redoStates = [];
+  }
+
+  clear() {
+    this.#states = [];
+    this.#redoStates = [];
+  }
+
+  addState(state) {
+    const copiedState = copyRoomObjectGroup(state);
+    this.#states.push(copiedState);
+  }
+
+  undo() {
+    if (this.#states.length === 0) {
+      return null;
+    }
+
+    const state = this.#states.pop();
+    console.log(this.#redoStates.push(state));
+    console.log(this.#redoStates);
+    return state;
+  }
+
+  redo() {
+    if (this.#redoStates.length === 0) {
+      return null;
+    }
+
+    const state = this.#redoStates.pop();
+    this.#states.push(state);
+    return state;
+  }
+
+}
 
 // The current color picked it is used in the line 200 if you make any changes to it go to line 200
 let currentColor = "lightgreen";
@@ -150,31 +217,38 @@ const visualizer = (function () {
    * @var currentRoomObj store the objects that identify the parts of image 
    */
   
+  const history = new VisualizerHistory();
   let defaultPixelData;
-  const roomObj = {
-    "../images/living-room.png": livingRoomObject,
-    "../images/bedroom.png": bedRoomObject,
-  };
-  let currentRoomObj;
+  let currentRoomObjs;
 
-  const clearCanvas = () => {
+  function setCurrentRoomObject(key) {
+    if (key === livingroomPath) {
+      currentRoomObjs = livingRoomObject.objectGroup;
+      defaultColor = livingRoomObject.defaultColor;
+    } else if(key === bedroomPath) {
+      currentRoomObjs = bedRoomObject.objectGroup;
+      defaultColor = bedRoomObject.defaultColor;
+    }
+  }
+
+  function clearCanvas() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
   }
 
-  const drawObjects = () => {
-    Object.values(currentRoomObj).forEach((obj) => {
+  function drawObjects() {
+    Object.values(currentRoomObjs).forEach((obj) => {
       obj.draw(ctx);
     });
   }
 
   // This is use to display the image with the modified colors
-  const render = () => {
+  function render() {
     clearCanvas();
     drawObjects();
     ctx.drawImage(img, 0, 0);
   }
 
-  const loadImage = () => {
+  function loadImage() {
     canvas.width = img.width;
     canvas.height = img.height;
 
@@ -184,14 +258,14 @@ const visualizer = (function () {
     render();
   };
 
-  const setImage = (imageURL) => {
-    currentRoomObj = roomObj[imageURL];
+  function setImage(imageURL) {
+    setCurrentRoomObject(imageURL);
     img.crossOrigin = "Anonymous";
     img.src = imageURL;
   };
 
-  // When the object is hover this will execute
-  const hoverEffect = (event) => {
+  // When the object is hovered this will execute
+  function hoverEffect(event) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -204,7 +278,7 @@ const visualizer = (function () {
     }
 
     // Iterate through each objects that been identified in the image and change the add a color on the top of it if it is hovered
-    Object.values(currentRoomObj).forEach((obj) => {
+    Object.values(currentRoomObjs).forEach((obj) => {
       if (obj.isPointed(x, y)) {
         clearCanvas();
         drawObjects();
@@ -215,7 +289,7 @@ const visualizer = (function () {
   };
 
   // This is use to change the oclor of identified object in the image
-  const fillObject = (event) => {
+  function fillObject(event) {
     const rect = canvas.getBoundingClientRect();
     const x = event.clientX - rect.left;
     const y = event.clientY - rect.top;
@@ -227,8 +301,9 @@ const visualizer = (function () {
     }
 
     // Iterate through each object that benn identified in the image and change the color of the clicked object or part
-    Object.values(currentRoomObj).forEach((obj) => {
+    Object.values(currentRoomObjs).forEach((obj) => {
       if (obj.isPointed(x, y)) {
+        history.addState(currentRoomObjs);
         obj.fillColor = currentColor;
       }
     });
@@ -236,14 +311,47 @@ const visualizer = (function () {
     render();
   }
 
+  function reset() {
+    history.clear();
+    Object.values(currentRoomObjs).forEach(obj => {
+      obj.fillColor = defaultColor;
+    });
+    render();
+  }
+
+  function undo() {
+    const prevState = history.undo();
+    if (!prevState) {
+      return;
+    }
+    currentRoomObjs = prevState;
+    render();
+  }
+
+  function redo() {
+    const nextState = history.redo();
+    if (!nextState) {
+      return;
+    }
+    currentRoomObjs = nextState;
+    render();
+  }
+
   img.addEventListener('load', loadImage);
   canvas.addEventListener('mousemove', hoverEffect);
   canvas.addEventListener('mouseout', render);
   canvas.addEventListener('click', fillObject);
-  return { setImage };
+  return { setImage, reset, undo, redo };
 })();
 
 const bedroomPath = "../images/bedroom.png";
 const livingroomPath = "../images/living-room.png";
+const resetButton = document.querySelector('.reset-button');
+const undoButton = document.querySelector('.undo-button');
+const redoButton = document.querySelector('.redo-button');
 
 visualizer.setImage(bedroomPath);
+resetButton.addEventListener('click', visualizer.reset);
+undoButton.addEventListener('click', visualizer.undo);
+redoButton.addEventListener('click', visualizer.redo);
+
