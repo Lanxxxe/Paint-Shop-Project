@@ -1,18 +1,57 @@
+@import url("https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css");
+
 * {
     font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+    padding: 0;
+    margin: 0;
 }
 
+.main-container {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+}
+.choosen-color-container {
+    flex: 0.3;
+    height: 100vh;
+}
+
+/* Order Count Number */
+.color-picked-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-top-right-radius: 2rem;
+    color: #ffffff;
+    gap: 10px;
+}
+.color-picked-container {
+    height: 7.8rem;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    background-color: #444b57;
+}
+.pallet-icon {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    gap: 8px;
+    border-radius: 8px;
+    margin-right: 0.78rem;
+    background-color: #0095f8;;
+    padding: 10px 15px;
+}
 
 /* Styling for Step 1 UI */
 .progress-container {
     display: flex;
     flex-direction: column;
+    flex: 0.7;
 }
 .progress-bar {
-    background-color: #424242;
+    background-color: #2e323a;
     width: 100%;
     border-top-left-radius: 2rem;
-    border-top-right-radius: 2rem;
 }
 .progress-bar > ul {
     display: flex;
@@ -30,7 +69,7 @@
     align-items: center;
     justify-content: center;
 }
-.progress-bar > ul > li:nth-child(1)::after, .progress-bar > ul > li:nth-child(2)::after, .progress-bar > ul > li:nth-child(3)::after {
+/* .progress-bar > ul > li:nth-child(1)::after, .progress-bar > ul > li:nth-child(2)::after, .progress-bar > ul > li:nth-child(3)::after {
     position: absolute;
     content: "";
     height: 0.28rem;
@@ -50,7 +89,7 @@
 .progress-bar > ul > li:nth-child(3)::after {
     width: 215px;
     right: -187px;
-}
+} */
 .progress-bar > ul > li > a {
     color: #000;
     padding: 0.18rem 0.74rem;
@@ -61,7 +100,7 @@
     margin-top: 1rem;
 }
 .choose-rooms-container {
-    padding: 1.7rem 7rem;
+    padding: 1.3rem 6rem;
 }
 .choose-rooms-container > h1, .choose-rooms-container > h4 {
     font-weight: bolder;
@@ -102,7 +141,7 @@
 
 /* Styling for Step 2 UI */
 .select-color-container {
-    padding: 1.7rem 7rem;
+    padding: 1.3rem 6rem;
 }
 .select-color-container >h1 {
     font-weight: bolder;
@@ -123,12 +162,11 @@
     border-radius: 0.78rem;
 } 
 .pick-color > div:hover{
-
     box-shadow: 1px 1px 2px rgb(214, 214, 214);
     opacity: 0.8;
 }
 .pick-color > div > img{
-    width: 30rem;
+    width: 23rem;
     height: auto;
     border-top-left-radius: 0.78rem;
     border-top-right-radius: 0.78rem;
@@ -137,4 +175,156 @@
     padding: 1.7rem;
     font-weight: bold;
     font-size: 1.8rem;    
+}
+
+/* Step 2- Browse Colors */
+.browse-colors-container {
+    padding: 1.3rem 6rem;
+}
+.browse-colors-container > h1 {
+    font-weight: bolder;
+    margin-bottom: -0.12rem;
+}
+#color-name {
+    font-size: 2.4rem;
+    font-weight: bolder;
+}
+.color-container {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    flex-direction: column;
+    column-gap: 10px;
+    margin-top: 3rem;
+}
+#circle-colors-container {
+    display: flex;
+    align-items: center;
+    justify-content: start;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+#circle-colors-container > span {
+    position: relative;
+    width: 57px;
+    height: 57px;
+    border: 1px solid rgb(162, 162, 162);
+    border-radius: 100%;
+}
+#circle-colors-container > span:hover, #square-colors-container > span:hover{
+    box-shadow: 2px 2px 4px #979797;
+    cursor: pointer;
+}
+#circle-colors-container > span:hover::after {
+    position: absolute;
+    content: "✓";
+    font-size: 1.4rem;
+    padding: 2px 7px; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ededed;
+    border-radius: 100%;
+}
+.activeSpan::after {
+    position: absolute;
+    content: "✓";
+    font-size: 1.4rem;
+    padding: 2px 7px; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #ededed;
+    border-radius: 100%;
+}
+
+#square-colors-container {
+    display: flex;
+    align-items: start;
+    justify-content: start;
+    gap: 7px;
+    flex-wrap: wrap;
+    margin-top: 3rem;
+}
+#square-colors-container > span {
+    width: 96px;
+    height: 59px;
+    border-radius: 3px;
+    position: relative;
+}
+#square-colors-container > .picked-color::after {
+    position: absolute;
+    content: "✓";
+    font-size: 1.4rem;
+    padding: 2px 7px; 
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    color: #fff;
+    background-color: #343434;
+    border-radius: 100%;
+}
+
+.paint-the-room {
+    text-align: center;
+    padding: 4rem;
+    border-bottom: 1px solid black;
+}
+.paint-the-room > span {
+    padding: 2rem 3rem;
+    background-color: #199af0;
+    border-radius: 10px;
+    font-weight: bolder;
+    color: #fff;
+}
+.paint-the-room > span:hover {
+    background-color: #158ad7;
+}
+
+.picked-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    padding: 1rem 1.3rem;
+    margin-top: 0.78rem;
+    gap: 10px;
+}
+.saved-colors {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    border-bottom: 1px solid rgb(54, 54, 54);
+    padding-bottom: 1.2rem;
+}
+.saved-colors > i {
+    color: #fff;
+    font-size: 1.7rem;
+    padding: 5px 8px;
+    background-color: rgb(233, 39, 39);
+    border-radius: 100%;
+}
+
+.type-color {
+    display: flex;
+    align-items: start;
+}
+.type-color > span {
+    width: 47px;
+    height: 47px;
+    background-color: #444b57;
+    border-radius: 7px;
+}
+.type-color > div {
+    display: flex;
+    flex-direction: column;
+    margin-left: 5px;
+}
+.type-color > div > span:nth-child(1) {
+    font-size: 1.7rem;
+    font-weight: bolder;
+}
+.type-color > div > span:nth-child(2) {
+    font-size: 1.3rem;
+    font-weight: bold;
 }
