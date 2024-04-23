@@ -1,6 +1,6 @@
 <div class="main-container">
     <div class="progress-container" style="flex: 1;">
-        <nav class="progress-bar" style="border-top-right-radius: 2rem;">
+        .<nav class="progress-bar" style="border-top-right-radius: 2rem;">
             <ul class="">
                 <li>
                     <a class="" href="">1</a>
