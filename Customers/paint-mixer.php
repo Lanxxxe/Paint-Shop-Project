@@ -198,7 +198,9 @@ if (isset($_GET['update_id'])) {
         <div id="page-wrapper">
         
             <div class="container-fluid">
-                <?php include './paint-mixer-files/step3.php' ?>
+                <?php 
+                include './paint-mixer-files/step3.php'
+                 ?>
             </div>
         </div>
     </div>

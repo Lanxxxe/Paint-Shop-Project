@@ -389,7 +389,7 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
   const undoButton = document.querySelector('.undo-button');
   const redoButton = document.querySelector('.redo-button');
 
-  visualizer.setImage(livingroomPath);
+  visualizer.setImage(bedroomPath);
   resetButton.addEventListener('click', visualizer.reset);
   undoButton.addEventListener('click', visualizer.undo);
   redoButton.addEventListener('click', visualizer.redo);
