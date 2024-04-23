@@ -39,5 +39,5 @@
         
     </div>
 
-    <?php include './paint-order.php' ?>
+    <?php include './paint-mixer-files/paint-order.php' ?>
 </div>
