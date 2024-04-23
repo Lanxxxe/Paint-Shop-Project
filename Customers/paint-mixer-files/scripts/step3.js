@@ -358,8 +358,8 @@ const visualizer = (function () {
   return { setImage, reset, undo, redo };
 })();
 
-const bedroomPath = "../images/bedroom.png";
-const livingroomPath = "../images/living-room.png";
+const bedroomPath = "./paint-mixer-files/images/bedroom.png";
+const livingroomPath = "./paint-mixer-files/images/living-room.png";
 const resetButton = document.querySelector('.reset-button');
 const undoButton = document.querySelector('.undo-button');
 const redoButton = document.querySelector('.redo-button');
