@@ -59,10 +59,11 @@ class RoomObject {
 
 
 class RoomObjectGroup {
-  constructor(objects, width, height) {
+  constructor(objects, width, height, defaultColor) {
     this.objects = objects;
     this.width = width;
     this.height = height;
+    this.defaultColor = defaultColor;
   }
 
   createCopy() {
@@ -71,12 +72,12 @@ class RoomObjectGroup {
       copiedObj[key] = this.objects[key].createCopy();
     });
 
-    return new RoomObjectGroup(copiedObj, this.width, this.height);
+    return new RoomObjectGroup(copiedObj, this.width, this.height, this.defaultColor);
   }
 
   setColorToDefault() {
     Object.values(this.objects).forEach(obj => {
-      obj.fillColor = obj.defaultColor;
+      obj.fillColor = this.defaultColor;
     });
   }
 }
@@ -127,7 +128,7 @@ function createLivingRoomObjects(width, height) {
     relativeCoor(0.7133333333333334, 0),
   ], defaultColor);
 
-  return new RoomObjectGroup({ wall, leftWindowBorder, rightWindowBorder }, width, height);
+  return new RoomObjectGroup({ wall, leftWindowBorder, rightWindowBorder }, width, height, defaultColor);
 }
 
 // Identify the parts in bed room image that can be colored 
@@ -167,7 +168,7 @@ function createBedRoomObjects(width, height) {
     relativeCoor(0.8546666666666666, 0.18666666666666668),
   ], defaultColor);
 
-  return new RoomObjectGroup({ leftWall, rightWall, windowBorder }, width, height);
+  return new RoomObjectGroup({ leftWall, rightWall, windowBorder }, width, height, defaultColor);
 }
 
 class VisualizerHistory {
@@ -217,12 +218,9 @@ class VisualizerHistory {
 }
 
 
-// The current color picked it is used in the line 200 if you make any changes to it go to line 200
-let currentColor = "lightgreen";
-
 
 // this contains the functionalities and controls for image
-const visualizer = (function () {
+function createVisualizer(currentColor, livingroomPath, bedroomPath) {
   const canvas = document.getElementById("visualizer-canvas");
   const ctx = canvas.getContext("2d");
   const img = new Image();
@@ -287,13 +285,14 @@ const visualizer = (function () {
     const pixelIndex = (y * canvas.width + x) * 4;
 
     // If alpha or opacity is greater than 9.0 prevent hover
-    if (defaultPixelData[pixelIndex + 3] >= 235) {
+    if (defaultPixelData[pixelIndex + 3] >= 245) {
       render();
       return;
     }
 
     // Iterate through each objects that been identified in the image and change the add a color on the top of it if it is hovered
     Object.values(currentState.objects).forEach((obj) => {
+      console.log("hhh");
       if (obj.isPointed(x, y)) {
         clearCanvas();
         drawObjects();
@@ -356,16 +355,21 @@ const visualizer = (function () {
   canvas.addEventListener('mouseout', render);
   canvas.addEventListener('click', fillObject);
   return { setImage, reset, undo, redo };
+}
+
+
+(function() {
+  const bedroomPath = "./paint-mixer-files/images/bedroom.png";
+  const livingroomPath = "./paint-mixer-files/images/living-room.png";
+  // The current color picked it is used in the line 200 if you make any changes to it go to line 200
+  const visualizer = createVisualizer("lightgreen", livingroomPath, bedroomPath);
+
+  const resetButton = document.querySelector('.reset-button');
+  const undoButton = document.querySelector('.undo-button');
+  const redoButton = document.querySelector('.redo-button');
+
+  visualizer.setImage(livingroomPath);
+  resetButton.addEventListener('click', visualizer.reset);
+  undoButton.addEventListener('click', visualizer.undo);
+  redoButton.addEventListener('click', visualizer.redo);
 })();
-
-const bedroomPath = "../images/bedroom.png";
-const livingroomPath = "../images/living-room.png";
-const resetButton = document.querySelector('.reset-button');
-const undoButton = document.querySelector('.undo-button');
-const redoButton = document.querySelector('.redo-button');
-
-visualizer.setImage(bedroomPath);
-resetButton.addEventListener('click', visualizer.reset);
-undoButton.addEventListener('click', visualizer.undo);
-redoButton.addEventListener('click', visualizer.redo);
-

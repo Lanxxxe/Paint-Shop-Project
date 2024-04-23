@@ -73,6 +73,7 @@ if (isset($_GET['update_id'])) {
     <link rel="stylesheet" type="text/css" href="./css/local.css" />
     <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/steps-styles.css">
     <script type="text/javascript" src="./paint-mixer-files/script-file/paint-mixer-script.js"></script>
+    <script type="text/javascript" src="./paint-mixer-files/script-file/step3.js" defer></script>
     <script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
     <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> -->
     <script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
@@ -278,6 +279,9 @@ if (isset($_GET['update_id'])) {
             </div>
         </div>
     </div>
+
+    <?php include_once("./paint-mixer-files/step3.php"); ?>
+
     <script>
         $(document).ready(function() {
             $('#priceinput').keypress(function(event) {
