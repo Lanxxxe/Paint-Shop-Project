@@ -225,6 +225,10 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
   const ctx = canvas.getContext("2d");
   const img = new Image();
 
+  const zw = 7, zh = 7;
+  const zoomCanvas = document.getElementById("zoomCanvas");
+  const zoomCtx = zoomCanvas.getContext("2d");
+
   /**
    * @var defaultPixelData use to store the default image data to use later
    * @var currentState store the objects that identify the parts of image 
@@ -233,6 +237,7 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
   const history = new VisualizerHistory();
   let defaultPixelData;
   let currentState;
+  const objectOpacity = 235;
 
   function initCurrentState(key) {
     if (key === livingroomPath) {
@@ -265,7 +270,7 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
     canvas.height = img.height;
 
     ctx.drawImage(img, 0, 0);
-    defaultPixelData = ctx.getImageData(0, 0, canvas.width, canvas.height).data;
+    defaultPixelData = new Uint8ClampedArray(ctx.getImageData(0, 0, canvas.width, canvas.height).data);
 
     initCurrentState(img.__imageURL);
     render();
@@ -280,27 +285,36 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
   // When the object is hovered this will execute
   function hoverEffect(event) {
     const rect = canvas.getBoundingClientRect();
-    const x = event.clientX - rect.left;
-    const y = event.clientY - rect.top;
-    const pixelIndex = (y * canvas.width + x) * 4;
+    const mouseX = event.clientX - rect.left;
+    const mouseY = event.clientY - rect.top;
+    const pixelIndex = (mouseY * canvas.width + mouseX) * 4;
 
-    // If alpha or opacity is greater than 9.0 prevent hover
-    if (defaultPixelData[pixelIndex + 3] >= 245) {
-      render();
+    render();
+
+    zoomCanvas.classList.remove("hide");
+    zoomCanvas.style.left = event.clientX - zw * 4 + 'px';
+    zoomCanvas.style.top = event.clientY - 100 + 'px';
+    zoomCanvas.width = zw;
+    zoomCanvas.height = zh;
+    const zoomPixelData = ctx.getImageData(mouseX - 3, mouseY - 3, zw, zh);
+    zoomCtx.clearRect(0, 0, zoomCanvas.width, zoomCanvas.height);
+    zoomCtx.putImageData(zoomPixelData, 0, 0);
+
+    // If alpha or opacity is greater than 235 (opaque), prevent hover
+    if (defaultPixelData[pixelIndex + 3] >= objectOpacity) {
       return;
     }
 
     // Iterate through each objects that been identified in the image and change the add a color on the top of it if it is hovered
     Object.values(currentState.objects).forEach((obj) => {
-      console.log("hhh");
-      if (obj.isPointed(x, y)) {
+      if (obj.isPointed(mouseX, mouseY)) {
         clearCanvas();
         drawObjects();
         RoomObject.drawRoomObject(ctx, obj, "rgba(70,70,255,0.3)");
         ctx.drawImage(img, 0, 0);
       }
     });
-  };
+  }
 
   // This is use to change the oclor of identified object in the image
   function fillObject(event) {
@@ -310,7 +324,7 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
     const pixelIndex = (y * canvas.width + x) * 4;
 
     // If alpha or opacity is greater than 9.0 prevent hover
-    if (defaultPixelData[pixelIndex + 3] >= 235) {
+    if (defaultPixelData[pixelIndex + 3] >= objectOpacity) {
       return;
     }
 
@@ -350,9 +364,16 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
     render();
   }
 
+  function hoverOff() {
+    if (!zoomCanvas.classList.contains("hide")) {
+      zoomCanvas.classList.add("hide");
+    }
+    render();
+  }
+
   img.addEventListener('load', loadImage);
   canvas.addEventListener('mousemove', hoverEffect);
-  canvas.addEventListener('mouseout', render);
+  canvas.addEventListener('mouseout', hoverOff);
   canvas.addEventListener('click', fillObject);
   return { setImage, reset, undo, redo };
 }

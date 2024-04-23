@@ -1,6 +1,6 @@
 <div class="step3-container">
  <div class="room-editor-container">
-    <a class="find-more-colors" href="">
+    <a class="find-more-colors" href="#">
       <span class="material-symbols-outlined">keyboard_arrow_left</span>
       <span class="text">Find More Colors</span>
     </a>
@@ -32,26 +32,37 @@
       </div>
       <div class="visualizer-canvas-container">
         <canvas id="visualizer-canvas"></canvas>
+        <canvas id="zoomCanvas" class="hide"></canvas>
       </div>
     </div>
   </div>
-  <div>
-    <div>
-      <span>icon</span>
-      <span>Order Paint</span>
-    </div>
-    <div>
-      <span>icon</span>
-      <span>Save Project</span>
-    </div>
-  </div>
-  <div>
-    <div class="add-color-containers">
-      <div>
-        <span>icon</span>
-        <span>SAVE MORE COLORS</span>
+
+  <div class="right-side-bar">
+    <div class="container-1">
+      <div class="cml-button order-paint">
+        <span>Order Paint</span>
+        <span class="material-symbols-outlined">
+          keyboard_arrow_right
+        </span>
+      </div>
+      <div class="cml-button save-project">
+        <span class="material-symbols-outlined icon">
+        save 
+        </span>
+        <span>Save Project</span>
       </div>
     </div>
-    <div class="colors"></div>
+
+    <div class="">
+      <div class="container-2">
+        <div class="add-color-container">
+          <span class="material-symbols-outlined icon">
+            add
+          </span>
+          <span class="text">SAVE MORE COLORS</span>
+        </div>
+      </div>
+      <div class="colors"></div>
+    </div>
   </div>
 </div>
