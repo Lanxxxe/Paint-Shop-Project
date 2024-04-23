@@ -34,8 +34,6 @@ require_once 'config.php';
 if (isset($_GET['delete_id'])) {
 
 
-
-
     $stmt_delete = $DB_con->prepare('DELETE FROM orderdetails WHERE order_id =:order_id');
     $stmt_delete->bindParam(':order_id', $_GET['delete_id']);
     $stmt_delete->execute();
@@ -49,9 +47,6 @@ if (isset($_GET['delete_id'])) {
 require_once 'config.php';
 
 if (isset($_GET['update_id'])) {
-
-
-
 
     $stmt_delete = $DB_con->prepare('update orderdetails set order_status="Ordered" WHERE order_status="Pending" and user_id =:user_id');
     $stmt_delete->bindParam(':user_id', $_GET['update_id']);
@@ -71,13 +66,23 @@ if (isset($_GET['update_id'])) {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CML Paint Trading</title>
     <link rel="shortcut icon" href="../assets/img/logo.png" type="image/x-icon" />
-    <link rel="stylesheet" type="text/css" href="bootstrap/css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="font-awesome/css/font-awesome.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/local.css" />
+    <link rel="stylesheet" type="text/css" href="./bootstrap/css/bootstrap.min.css" />
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous"> -->
+    <link rel="stylesheet" type="text/css" href="./font-awesome/css/font-awesome.min.css" />
+    <link rel="stylesheet" type="text/css" href="./css/local.css" />
+    
+    <!-- step1 and step 2 -->
+    <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/steps-styles.css">
+    <script type="text/javascript" src="./paint-mixer-files/script-file/paint-mixer-script.js"></script>
+    
+    <!-- step3 -->
+    <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/step3.css">
+    <script type="text/javascript" src="./paint-mixer-files/script-file/step3.js" defer></script>
 
-    <script type="text/javascript" src="js/jquery-1.10.2.min.js"></script>
-    <script type="text/javascript" src="bootstrap/js/bootstrap.min.js"></script>
 
+    <script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
+    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> -->
+    <script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
     <style>
         #result-color {
             width: 100%;
@@ -191,108 +196,9 @@ if (isset($_GET['update_id'])) {
         <?php include './navigation.php' ?>
 
         <div id="page-wrapper">
-            <div class="alert alert-default" style="color:white;background-color:#008CBA">
-                <center>
-                    <h3> <span class="glyphicon glyphicon-glass"></span> Paint Mixing Tool</h3>
-                </center>
-            </div>
-
-            <br />
-
+        
             <div class="container-fluid">
-                <div class="row">
-                    <div class="col-md-6 col-sm-12">
-                        <div id="result-color"></div>
-                        <div class="paint-btns">
-                            <button class="btn btn-sm btn-download" onclick="downloadColor()">
-                                <span class="glyphicon glyphicon-download-alt"></span>
-                                Download
-                            </button>
-                            <button class="btn btn-sm btn-reset" onclick="resetColor()">
-                                <span class="glyphicon glyphicon-refresh"></span>
-                                Reset
-                            </button>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-sm-12">
-                        <h1>RGB Colors</h1>
-                        <div class="color-switcher">
-                            <div class="color-slider">
-                                <div class="slidecontainer">
-                                    <input type="range" min="0" max="255" value="255" class="slider red" id="redRange" onchange="updateColor()">
-                                </div>
-                                <div class="color-list">
-                                    <h4 id="valueRed">255</h4>
-                                </div>
-                            </div>
-                            <div class="color-slider">
-                                <div class="slidecontainer">
-                                    <input type="range" min="0" max="255" value="0" class="slider green" id="greenRange" onchange="updateColor()">
-                                </div>
-                                <div class="color-list">
-                                    <h4 id="valueGreen">0</h4>
-                                </div>
-                            </div>
-                            <div class="color-slider">
-                                <div class="slidecontainer">
-                                    <input type="range" min="0" max="255" value="0" class="slider blue" id="blueRange" onchange="updateColor()">
-                                </div>
-                                <div class="color-list">
-                                    <h4 id="valueBlue">0</h4>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="form-group" style="font-size: 20px; margin: 20px 0;">
-                            <label class="form-label">Color Result: </label>
-                            <input class="form-control" id="resultText" value="#ff0000" type="text" readonly>
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6" style="font-size: 20px;">
-                                <label class="form-label">Width (m): </label>
-                                <input class="form-control" placeholder="Enter width of wall" id="width" type="text">
-                            </div>
-                            <div class="form-group col-md-6" style="font-size: 20px;">
-                                <label class="form-label">Height (m): </label>
-                                <input class="form-control" placeholder="Enter height of wall" id="height" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group" style="font-size: 20px;">
-                            <label class="form-label">Surface Area (m2): </label>
-                            <input class="form-control" id="surfaceArea" type="text">
-                        </div>
-                        <div class="row">
-                            <div class="form-group col-md-6" style="font-size: 20px;">
-                                <label class="form-label">No. of coats: </label>
-                                <input class="form-control" placeholder="Enter number of coats" id="coatsNumber" type="number">
-                            </div>
-                            <div class="form-group col-md-6" style="font-size: 20px;">
-                                <label class="form-label">Liters in Total: </label>
-                                <input class="form-control" id="liters" type="text">
-                            </div>
-                        </div>
-                        <div class="form-group" style="font-size: 20px;">
-                            <label class="form-label">Paint Type: </label>
-                            <select id="paint" class="form-control">
-                                <option value="Gloss">Gloss</option>
-                                <option value="Oil Paint">Oil Paint</option>
-                                <option value="Aluminum Paint">Aluminum Paint</option>
-                                <option value="Semi Gloss Paint">Semi Gloss Paint</option>
-                                <option value="Enamel">Enamel</option>
-                                <option value="Exterior Paint">Exterior Paint</option>
-                                <option value="Interior Paint">Interior Paint</option>
-                                <option value="Emulsion">Emulsion</option>
-                                <option value="Primer">Primer</option>
-                                <option value="Acrylic">Acrylic</option>
-                                <option value="Flat Paint">Flat Paint</option>
-                                <option value="Matte Finish">Matte Finish</option>
-                            </select>
-                        </div>
-                        <div class="form-group" style="font-size: 20px;">
-                            <label class="form-label">Total Price: </label>
-                            <input class="form-control" id="totalPrice" value="0" type="text">
-                        </div>
-                    </div>
-                </div>
+                <?php include './paint-mixer-files/step3.php' ?>
             </div>
         </div>
     </div>
@@ -379,6 +285,7 @@ if (isset($_GET['update_id'])) {
             </div>
         </div>
     </div>
+
     <script>
         $(document).ready(function() {
             $('#priceinput').keypress(function(event) {
