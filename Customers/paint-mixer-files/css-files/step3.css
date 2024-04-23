@@ -10,7 +10,9 @@
 
 .step3-container {
   font-family: Roboto, Arial, Helvetica, sans-serif;
-  max-width: 300px;
+  border: 1px solid #ccc;
+  max-height: 800px;
+  border-radius: 2rem;
 }
 
 .room-editor-container {
@@ -40,16 +42,16 @@
 }
 
 .right-side-bar {
-  min-width: 300px;
   display: flex;
   flex-direction: column;
   border-left: 1px solid #ccc;
   align-items: center;
+  height: 720px;
 }
 
 
 .canvas-control {
-  width: 98%;
+  width: 96%;
   display: flex;
   justify-content: flex-start;
   align-items: center;
@@ -57,6 +59,8 @@
 }
 
 .room-visualizer {
+  max-width: 700px;
+  max-height: 480px;
   border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
@@ -125,6 +129,12 @@
   padding: 0;
 }
 
+.find-more-colors {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
 .find-more-colors,
 .add-color-container {
   color: var(--btn-font-blue);
@@ -165,24 +175,33 @@
   margin-bottom: 30px;
 }
 
-.container-2 {
+.rsb-container-2 {
   border-top: 1px solid #ccc;
   border-bottom: 1px solid #ccc;
   padding: 20px 0;
   text-align: center;
-  min-width: 300px;
+  width: 460px;
 }
 
-.container-1 {
+.rsb-container-1 {
   margin-top: 20px;
 }
 
 .canvas-control *:hover,
-.find-more-colors:hover,
-.add-color-container:hover,
 .cml-button:hover {
   background-color: #f2f2f2;
   color: #0084c9;
+}
+
+.add-color-container .icon {
+  padding: 4px;
+  border: 1px dashed #0095F8;
+}
+
+.find-more-colors:hover,
+.add-color-container:hover {
+  color: #0084c9;
+  text-decoration: none;
 }
 
 .cml-button:hover {

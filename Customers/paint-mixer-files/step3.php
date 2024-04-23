@@ -71,7 +71,7 @@
       </div>
       
       <div class="right-side-bar">
-        <div class="container-1">
+        <div class="rsb-container-1">
           <div class="cml-button order-paint">
             <span>Order Paint</span>
             <span class="material-symbols-outlined">
@@ -87,7 +87,7 @@
         </div>
 
         <div class="">
-          <div class="container-2">
+          <div class="rsb-container-2">
             <div class="add-color-container">
               <span class="material-symbols-outlined icon">
                 add
@@ -95,7 +95,7 @@
               <span class="text">SAVE MORE COLORS</span>
             </div>
           </div>
-          <div class="colors"></div>
+          <div class="colors picked-container"></div>
         </div>
       </div>
   </div>

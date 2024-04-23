@@ -379,18 +379,37 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
 }
 
 
-(function() {
-  const bedroomPath = "./paint-mixer-files/images/bedroom.png";
-  const livingroomPath = "./paint-mixer-files/images/living-room.png";
-  // The current color picked it is used in the line 200 if you make any changes to it go to line 200
-  const visualizer = createVisualizer("lightgreen", livingroomPath, bedroomPath);
 
-  const resetButton = document.querySelector('.reset-button');
-  const undoButton = document.querySelector('.undo-button');
-  const redoButton = document.querySelector('.redo-button');
+document.addEventListener('DOMContentLoaded', function() {
+  try {
+    let color;
+    if (typeof listOfOrders == 'object') {
+      listOfOrders = JSON.parse(localStorage?.getItem('pickedColors')) || {};
+    }
+    if (listOfOrders) {
+      displayPickedColors();
+      color = Object.values(listOfOrders);
+      if (color.length > 0) {
+        color = color[0];
+      } else {
+        color = "lightgreen";
+      }
+    }
 
-  visualizer.setImage(bedroomPath);
-  resetButton.addEventListener('click', visualizer.reset);
-  undoButton.addEventListener('click', visualizer.undo);
-  redoButton.addEventListener('click', visualizer.redo);
-})();
+    const bedroomPath = "./paint-mixer-files/images/bedroom.png";
+    const livingroomPath = "./paint-mixer-files/images/living-room.png";
+    // The current color picked it is used in the line 200 if you make any changes to it go to line 200
+    const visualizer = createVisualizer(color, livingroomPath, bedroomPath);
+
+    const resetButton = document.querySelector('.reset-button');
+    const undoButton = document.querySelector('.undo-button');
+    const redoButton = document.querySelector('.redo-button');
+
+    visualizer.setImage(bedroomPath);
+    resetButton.addEventListener('click', visualizer.reset);
+    undoButton.addEventListener('click', visualizer.undo);
+    redoButton.addEventListener('click', visualizer.redo);
+  } catch(err) {
+    console.log(err);
+  }
+});

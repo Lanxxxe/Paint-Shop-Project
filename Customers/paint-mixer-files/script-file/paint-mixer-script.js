@@ -76,6 +76,7 @@ const displayColorShades = (activeBaseColor) => {
                 }
                 NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
                 displayPickedColors();
+                localStorage?.setItem("pickedColors", JSON.stringify(listOfOrders));
             })
         }
     });
