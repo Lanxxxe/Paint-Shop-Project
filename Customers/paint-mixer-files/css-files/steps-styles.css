@@ -29,10 +29,11 @@
 }
 
 .color-picked-container {
-    height: 7.8rem;
+    /* height: 7.rem; */
     font-size: 1.5rem;
     font-weight: bolder;
     background-color: #444b57;
+    padding: 22.5px 0;
 }
 
 .pallet-icon {

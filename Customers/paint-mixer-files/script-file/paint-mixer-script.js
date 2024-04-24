@@ -1,3 +1,13 @@
+// NOTE: This script contains functionality for Step 1 and Step 2 of the program
+const bedRoomContainer = document.querySelector('#bedroom-container');
+const livingRoomContainer = document.querySelector('#living-room-container'); 
+const allPallets = document.querySelector('.all-pallet');
+const curatedPallets = document.querySelector('.curated-pallet');
+const searchPallets = document.querySelector('.search-pallet');
+
+
+let listOfOrders = {};
+let currentImage;
 
 const getColors = (jsonURL) => {
     return fetch(jsonURL)
@@ -10,7 +20,7 @@ const getColors = (jsonURL) => {
     })
 }
 
-let listOfOrders = {};
+
 
 const createCircleColors = () => {
     getColors("./paint-mixer-files/script-file/colors.json")
@@ -127,7 +137,30 @@ const displayPickedColors = () => {
     });
 }
 
+const gotoStep2 = (link, roomType) => {
+    window.location.href = link;
+
+    let imageLocation = `./paint-mixer-files/images/${roomType}.png`;
+    let typeOfRoom = roomType;
+    currentImage = roomType;
+}
+
+const browseColorCollection = (link) => {
+    window.location.href = link;
+}
 
 document.addEventListener("DOMContentLoaded", () => {
     createCircleColors();
+
+    bedRoomContainer.addEventListener('click', () => {
+        gotoStep2('color-change.php?step=2', 'bedroom');
+    })
+
+    livingRoomContainer.addEventListener('click', () => {
+        gotoStep2('color-change.php?step=2', 'living-room');
+    })
+
+    allPallets.addEventListener('click', () => {
+        window.location.href = 'color-change.php?step=2a';
+    })
 })

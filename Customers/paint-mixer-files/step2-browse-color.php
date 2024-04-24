@@ -5,7 +5,7 @@
         ?>
     
         <div class="browse-colors-container">
-            <a href="#">< Explore Different Colors</a>
+            <a href="color-change.php?step=2">< Explore Different Colors</a>
             <h1>Browse Paint Colors</h1>
             <span id="color-name">Choose a Color</span>
     
