@@ -219,3 +219,12 @@
 .hide {
   display: none;
 }
+
+.picked-color-code.material-symbols-outlined {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  font-size: 32px;
+  color: #ccc;
+}

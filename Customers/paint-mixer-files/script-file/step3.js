@@ -220,11 +220,13 @@ class VisualizerHistory {
 
 
 // this contains the functionalities and controls for image
-function createVisualizer(currentColor) {
+function createVisualizer() {
   const images = {
-    "bed-room": "./paint-mixer-files/images/bedroom.png",
     "living-room": "./paint-mixer-files/images/living-room.png",
+    "bedroom": "./paint-mixer-files/images/bedroom.png",
   };
+  const imageKeys = Object.keys(images);
+  let currentColor;
   const canvas = document.getElementById("visualizer-canvas");
   const ctx = canvas.getContext("2d");
   const img = new Image();
@@ -244,9 +246,9 @@ function createVisualizer(currentColor) {
   const objectOpacity = 235;
 
   function initCurrentState(key) {
-    if (key === images['living-room']) {
+    if (key === imageKeys[0]) {
       currentState = createLivingRoomObjects(canvas.width, canvas.height);
-    } else if (key === images['bed-room']) {
+    } else if (key === imageKeys[1]) {
       currentState = createBedRoomObjects(canvas.width, canvas.height);
     }
     history.addState(currentState.createCopy());
@@ -276,7 +278,7 @@ function createVisualizer(currentColor) {
     ctx.drawImage(img, 0, 0);
     defaultPixelData = new Uint8ClampedArray(ctx.getImageData(0, 0, canvas.width, canvas.height).data);
 
-    initCurrentState(img.__imageURL);
+    initCurrentState(img.__imageKey);
     render();
   };
 
@@ -284,8 +286,12 @@ function createVisualizer(currentColor) {
     const imageURL = images[imageKey];
     img.crossOrigin = "Anonymous";
     img.src = imageURL;
-    img.__imageURL = imageURL;
+    img.__imageKey = imageKey;
   };
+
+  function setColor(color) {
+    currentColor = color;
+  }
 
   // When the object is hovered this will execute
   function hoverEffect(event) {
@@ -380,25 +386,101 @@ function createVisualizer(currentColor) {
   canvas.addEventListener('mousemove', hoverEffect);
   canvas.addEventListener('mouseout', hoverOff);
   canvas.addEventListener('click', fillObject);
-  return { setImage, reset, undo, redo };
+  return { setImage, reset, undo, redo, setColor, imageKeys };
 }
 
 
+function clearPickedColors() {
+  const ordersContainer = document.querySelector('.colors.picked-container');
+  const pickedColors = ordersContainer.children;
+  for (const pickedColor of pickedColors) {
+    const colorSpan = pickedColor.querySelector('.picked-color-code');
+    colorSpan.removeEventListener('click', colorSpan.__setColor);
+    pickedColor.remove();
+  }
+}
 
-document.addEventListener('DOMContentLoaded', function() {
+
+function displayPickedColors2(visualizer, pickedColors) {
+  const checkMark = "material-symbols-outlined";
+  clearPickedColors();
+
+  function setColorToClicked(color, container) {
+    visualizer.setColor(color);
+    for (const elem of container.children) {
+      const colorSpan = elem.querySelector('.picked-color-code');
+      colorSpan.classList.remove(checkMark);
+      colorSpan.textContent = '';
+    }
+    this.classList.add(checkMark);
+    this.textContent = 'check';
+  }
+
+  const ordersContainer = document.querySelector('.colors.picked-container');
+
+  Object.entries(pickedColors).forEach(([colorName, colorCode], i) => {
+    const colorDiv = document.createElement('div');
+    colorDiv.classList.add('saved-colors');
+
+    const typeColorDiv = document.createElement('div');
+    typeColorDiv.classList.add('type-color');
+
+    const colorSpan = document.createElement('span');
+    colorSpan.style.backgroundColor = colorCode;
+    colorSpan.classList.add('picked-color-code');
+
+    const colorDetailsDiv = document.createElement('div');
+    const colorNameSpan = document.createElement('span');
+    colorNameSpan.textContent = colorName;
+
+    const colorCodeSpan = document.createElement('span');
+    colorCodeSpan.textContent = colorCode;
+
+    colorSpan.__setColor = setColorToClicked.bind(colorSpan, colorCode, ordersContainer);
+    colorSpan.addEventListener('click', colorSpan.__setColor);
+    if (i === 0) {
+      colorSpan.__setColor();
+    }
+
+    // Append elements to their respective parent elements
+    typeColorDiv.appendChild(colorSpan);
+    colorDetailsDiv.appendChild(colorNameSpan);
+    colorDetailsDiv.appendChild(colorCodeSpan);
+    typeColorDiv.appendChild(colorDetailsDiv);
+    colorDiv.appendChild(typeColorDiv);
+
+    // Append the color div to the ordersContainer
+    ordersContainer.appendChild(colorDiv);
+  });
+}
+
+
+document.addEventListener('DOMContentLoaded', function () {
   try {
     // The current color picked it is used in the line 200 if you make any changes to it go to line 200
-    const visualizer = createVisualizer("gray");
+    const visualizer = createVisualizer();
+    let room = localStorage.getItem('room');
+
+    if (!room || !visualizer.imageKeys.includes(room)) {
+      window.location.href = "color-change.php?step=1";
+    }
+
+    const pickedColors = JSON.parse(localStorage.getItem('pickedColors'));
+
+    if (pickedColors === null || typeof (pickedColors) !== 'object') {
+      window.location.href = "color-change.php?step=2";
+    }
 
     const resetButton = document.querySelector('.reset-button');
     const undoButton = document.querySelector('.undo-button');
     const redoButton = document.querySelector('.redo-button');
 
-    visualizer.setImage('living-room');
+    displayPickedColors2(visualizer, pickedColors);
+    visualizer.setImage(room);
     resetButton.addEventListener('click', visualizer.reset);
     undoButton.addEventListener('click', visualizer.undo);
     redoButton.addEventListener('click', visualizer.redo);
-  } catch(err) {
+  } catch (err) {
     console.log(err);
   }
 });
