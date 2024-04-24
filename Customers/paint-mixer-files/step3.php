@@ -1,25 +1,7 @@
 <div class="main-container step3-container">
   <div class="progress-container">
-    <nav class="progress-bar">
-      <ul class="">
-        <li>
-            <a class="" href="">1</a>
-            <span>Select Photo</span>
-        </li>
-        <li>
-            <a href="">2</a>
-            <span>Select Color</span>
-        </li>
-        <li>
-            <a href="" >3</a>
-            <span>Visualize Room</span>
-        </li>
-        <li>
-            <a href="" >4</a>
-            <span>Download Paint</span>
-        </li>
-      </ul>
-    </nav>
+
+  <?php include_once("./paint-mixer-files/steps-nav.php") ?>
 
   <div class="room-editor-container">
     <a class="find-more-colors" href="#">
