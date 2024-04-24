@@ -220,7 +220,11 @@ class VisualizerHistory {
 
 
 // this contains the functionalities and controls for image
-function createVisualizer(currentColor, livingroomPath, bedroomPath) {
+function createVisualizer(currentColor) {
+  const images = {
+    "bed-room": "./paint-mixer-files/images/bedroom.png",
+    "living-room": "./paint-mixer-files/images/living-room.png",
+  };
   const canvas = document.getElementById("visualizer-canvas");
   const ctx = canvas.getContext("2d");
   const img = new Image();
@@ -240,9 +244,9 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
   const objectOpacity = 235;
 
   function initCurrentState(key) {
-    if (key === livingroomPath) {
+    if (key === images['living-room']) {
       currentState = createLivingRoomObjects(canvas.width, canvas.height);
-    } else if (key === bedroomPath) {
+    } else if (key === images['bed-room']) {
       currentState = createBedRoomObjects(canvas.width, canvas.height);
     }
     history.addState(currentState.createCopy());
@@ -276,7 +280,8 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
     render();
   };
 
-  function setImage(imageURL) {
+  function setImage(imageKey) {
+    const imageURL = images[imageKey];
     img.crossOrigin = "Anonymous";
     img.src = imageURL;
     img.__imageURL = imageURL;
@@ -382,30 +387,14 @@ function createVisualizer(currentColor, livingroomPath, bedroomPath) {
 
 document.addEventListener('DOMContentLoaded', function() {
   try {
-    let color;
-    if (typeof listOfOrders == 'object') {
-      listOfOrders = JSON.parse(localStorage?.getItem('pickedColors')) || {};
-    }
-    if (listOfOrders) {
-      displayPickedColors();
-      color = Object.values(listOfOrders);
-      if (color.length > 0) {
-        color = color[0];
-      } else {
-        color = "lightgreen";
-      }
-    }
-
-    const bedroomPath = "./paint-mixer-files/images/bedroom.png";
-    const livingroomPath = "./paint-mixer-files/images/living-room.png";
     // The current color picked it is used in the line 200 if you make any changes to it go to line 200
-    const visualizer = createVisualizer(color, livingroomPath, bedroomPath);
+    const visualizer = createVisualizer("gray");
 
     const resetButton = document.querySelector('.reset-button');
     const undoButton = document.querySelector('.undo-button');
     const redoButton = document.querySelector('.redo-button');
 
-    visualizer.setImage(bedroomPath);
+    visualizer.setImage('living-room');
     resetButton.addEventListener('click', visualizer.reset);
     undoButton.addEventListener('click', visualizer.undo);
     redoButton.addEventListener('click', visualizer.redo);

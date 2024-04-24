@@ -13,7 +13,7 @@
         <span>Visualize Room</span>
     </li>
     <li>
-        <a href="">4</a>
+        <a href="color-change.php?step=4">4</a>
         <span>Download Paint</span>
     </li>
   </ul>
