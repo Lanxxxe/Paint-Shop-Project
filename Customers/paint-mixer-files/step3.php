@@ -4,7 +4,7 @@
   <?php include_once("./paint-mixer-files/steps-nav.php") ?>
 
   <div class="room-editor-container">
-    <a class="find-more-colors" href="#">
+    <a class="find-more-colors" href="color-change.php?step=2">
       <span class="material-symbols-outlined">keyboard_arrow_left</span>
       <span class="text">Find More Colors</span>
     </a>
@@ -32,7 +32,7 @@
           </span>
           <span class="text">Redo</span>
         </button>
-        <span class="change-photo">Change Your Photo</span>
+        <a class="change-photo" href="color-change.php?step=1">Change Your Photo</a>
       </div>
       <div class="visualizer-canvas-container">
         <canvas id="visualizer-canvas"></canvas>
