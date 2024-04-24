@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-container step2-container">
     <div class="progress-container">
         <?php 
             include_once("./paint-mixer-files/steps-nav.php");

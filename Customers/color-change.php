@@ -6,6 +6,8 @@ $step = filter_input(INPUT_GET, "step", FILTER_SANITIZE_SPECIAL_CHARS);
 if (!empty($step) && !in_array($step, $valid_steps)) {
     header("Location: HTTP/1.0 404 Not Found");
 }
+
+
 session_start();
 
 if (!$_SESSION['user_email']) {
@@ -80,7 +82,7 @@ if (isset($_GET['update_id'])) {
     
     <!-- step1 and step 2 -->
     <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/steps-styles.css">
-    <script type="text/javascript" src="./paint-mixer-files/script-file/paint-mixer-script.js"></script>
+    <script type="text/javascript" src="./paint-mixer-files/script-file/paint-mixer-script.js" defer></script>
     
     <!-- step3 -->
     <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/step3.css">
@@ -88,7 +90,7 @@ if (isset($_GET['update_id'])) {
 
 
     <script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
-    <!-- <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script> -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
     <script type="text/javascript" src="./bootstrap/js/bootstrap.min.js"></script>
     <style>
         #result-color {
@@ -216,7 +218,7 @@ if (isset($_GET['update_id'])) {
                         include_once("./paint-mixer-files/step2-browse-color.php");
                     } else if ($step === "3") {
                         include_once("./paint-mixer-files/step3.php");
-                    }
+                    } 
                 ?>
             </div>
         </div>

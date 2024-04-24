@@ -1,4 +1,4 @@
-<div class="main-container">
+<div class="main-container step1-container">
     <div class="progress-container" style="flex: 1;">
 
         <?php 
