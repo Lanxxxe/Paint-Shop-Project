@@ -150,17 +150,27 @@ const browseColorCollection = (link) => {
 }
 
 document.addEventListener("DOMContentLoaded", () => {
-    createCircleColors();
+    try {
+        createCircleColors();
+    } catch (err) {
+        console.log(err);
+    }
+    
+    if (bedRoomContainer) {
+        bedRoomContainer.addEventListener('click', () => {
+            gotoStep2('color-change.php?step=2', 'bedroom');
+        });
+    }
 
-    bedRoomContainer.addEventListener('click', () => {
-        gotoStep2('color-change.php?step=2', 'bedroom');
-    })
+    if (livingRoomContainer) {
+        livingRoomContainer.addEventListener('click', () => {
+            gotoStep2('color-change.php?step=2', 'living-room');
+        });
+    }
 
-    livingRoomContainer.addEventListener('click', () => {
-        gotoStep2('color-change.php?step=2', 'living-room');
-    })
-
-    allPallets.addEventListener('click', () => {
-        window.location.href = 'color-change.php?step=2a';
-    })
+    if (allPallets) {
+        allPallets.addEventListener('click', () => {
+            window.location.href = 'color-change.php?step=2a';
+        });
+    }
 })
