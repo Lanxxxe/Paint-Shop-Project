@@ -160,7 +160,7 @@
     font-size: 1.8rem;
 }
 
-/* Styling for Step 2 UI */
+/* Styling for Step 2 UI and Step 2 - Curated Color*/
 .select-color-container {
     padding: 1.3rem 4rem;
 }
@@ -169,7 +169,7 @@
     font-weight: bolder;
 }
 
-.pick-color {
+.pick-color, .pick-curated-color {
     margin-top: 2rem;
     display: flex;
     align-items: center;
@@ -178,31 +178,50 @@
     gap: 2rem;
 }
 
-.pick-color>div {
+.pick-color>div, .pick-curated-color>div {
     border: 1px solid rgb(180, 180, 180);
     display: flex;
     flex-direction: column;
     justify-content: start;
-    border-radius: 0.78rem;
+    border-radius: 0.25rem;
 }
 
-.pick-color>div:hover {
+.pick-color>div:hover, .pick-curated-color>div:hover {
     box-shadow: 1px 1px 2px rgb(214, 214, 214);
     opacity: 0.8;
 }
 
-.pick-color>div>img {
+.pick-color>div>img, .pick-curated-color>div>img {
     width: 23rem;
     height: auto;
-    border-top-left-radius: 0.78rem;
-    border-top-right-radius: 0.78rem;
+    border-top-left-radius: 0.25rem;
+    border-top-right-radius: 0.25rem;
 }
 
-.pick-color>div>span {
+.pick-color>div>span, .pick-curated-color>div>span {
     padding: 1.7rem;
     font-weight: bold;
     font-size: 1.8rem;
 }
+
+.retreater-pallet, 
+.weaver-pallet, 
+.commoner-pallet, 
+.brave-pallet {
+    display: flex;
+    align-items: center;
+    align-items: center;
+}
+
+.retreater-pallet>span, 
+.weaver-pallet>span, 
+.commoner-pallet>span, 
+.brave-pallet>span {
+    flex: 1;
+    height: 45px;
+}
+
+
 
 /* Step 2- Browse Colors */
 .browse-colors-container {
@@ -303,6 +322,8 @@
     border-radius: 100%;
 }
 
+
+/* Step 3 */
 .paint-the-room {
     text-align: center;
     padding: 4rem;

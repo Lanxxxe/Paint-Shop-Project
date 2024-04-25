@@ -98,17 +98,6 @@ const displayPickedColors = () => {
 
     // Iterate over each entry (colorName, colorCode) in the listOfOrders object
     Object.entries(listOfOrders).forEach(([colorName, colorCode]) => {
-        // Container Format 
-        // <div class="saved-colors">
-        //     <div class="type-color">
-        //         <span></span>
-        //         <div>
-        //             <span>Color Name</span>
-        //             <span>Color Code</span>
-        //         </div>
-        //     </div>
-        //     <i class="bi bi-trash"></i>
-        // </div>
 
         // Create the HTML structure for each color entry
         let colorDiv = document.createElement('div');
@@ -137,6 +126,29 @@ const displayPickedColors = () => {
     });
 }
 
+
+const getCuratedColors = (spanContainers, curatedSet, curatedPosition) => {
+    //  Loop through the span container
+    spanContainers.forEach((span, index) => {
+        span.style.background = curatedSet[curatedPosition][index];
+
+        
+    })
+}
+
+const displayCuratedColor = () => {
+    getColors('./paint-mixer-files/script-file/curated-pallet.json')
+        .then(response => {  
+            
+            var curatedColors = Object.values(response);
+            // Generate colors on the span containers
+            getCuratedColors(document.querySelectorAll('.retreater-pallet span'), curatedColors, 0);
+            getCuratedColors(document.querySelectorAll('.weaver-pallet span'), curatedColors, 1);
+            getCuratedColors(document.querySelectorAll('.commoner-pallet span'), curatedColors, 2);
+            getCuratedColors(document.querySelectorAll('.brave-pallet span'), curatedColors, 3);
+    });   
+}
+
 const gotoStep2 = (link, roomType) => {
     window.location.href = link;
 
@@ -153,6 +165,7 @@ const browseColorCollection = (link) => {
 document.addEventListener("DOMContentLoaded", () => {
     try {
         createCircleColors();
+        displayCuratedColor();
     } catch (err) {
         console.log(err);
     }
@@ -172,6 +185,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (allPallets) {
         allPallets.addEventListener('click', () => {
             window.location.href = 'color-change.php?step=2a';
+        });
+    }
+    if (curatedPallets) {
+        curatedPallets.addEventListener('click', () => {
+            window.location.href = 'color-change.php?step=2b';
+
         });
     }
 })
