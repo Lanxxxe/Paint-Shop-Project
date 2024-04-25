@@ -215,7 +215,7 @@ if (isset($_GET['update_id'])) {
                     } else if ($step === "2") {
                         include_once("./paint-mixer-files/step2.php");
                     } else if ($step === "2a") {
-                        include_once("./paint-mixer-files/step3.php");
+                        include_once("./paint-mixer-files/step2-browse-color.php");
                     } else if ($step === "3") {
                         include_once("./paint-mixer-files/step3.php");
                     } 
