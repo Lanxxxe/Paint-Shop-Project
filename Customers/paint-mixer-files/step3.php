@@ -1,45 +1,45 @@
 <div class="main-container step3-container">
   <div class="progress-container">
 
-  <?php include_once("./paint-mixer-files/steps-nav.php") ?>
+    <?php include_once("./paint-mixer-files/steps-nav.php") ?>
 
-  <div class="room-editor-container">
-    <a class="find-more-colors" href="color-change.php?step=2">
-      <span class="material-symbols-outlined">keyboard_arrow_left</span>
-      <span class="text">Find More Colors</span>
-    </a>
+    <div class="room-editor-container">
+      <a class="find-more-colors" href="color-change.php?step=2">
+        <span class="material-symbols-outlined">keyboard_arrow_left</span>
+        <span class="text">Find More Colors</span>
+      </a>
 
-    <h1>Visualize Your Room</h1>
-    <h2>Click a wall to paint the selected color.</h2>
+      <h1>Visualize Your Room</h1>
+      <h2>Click a wall to paint the selected color.</h2>
 
-    <div class="room-visualizer">
-      <div class="canvas-control">
-        <button class="reset-button">
-          <span class="material-symbols-outlined">
-          replay
-          </span>
-          <span class="text">Reset</span>
-        </button>
-        <button class="undo-button">
-          <span class="material-symbols-outlined">
-          undo
-          </span>
-          <span class="text">Undo</span>
-        </button>
-        <button class="redo-button">
-          <span class="material-symbols-outlined">
-            redo 
-          </span>
-          <span class="text">Redo</span>
-        </button>
-        <a class="change-photo" href="color-change.php?step=1">Change Your Photo</a>
-      </div>
-      <div class="visualizer-canvas-container">
-        <canvas id="visualizer-canvas"></canvas>
-        <canvas id="zoomCanvas" class="hide"></canvas>
+      <div class="room-visualizer">
+        <div class="canvas-control">
+          <button class="reset-button">
+            <span class="material-symbols-outlined">
+            replay
+            </span>
+            <span class="text">Reset</span>
+          </button>
+          <button class="undo-button">
+            <span class="material-symbols-outlined">
+            undo
+            </span>
+            <span class="text">Undo</span>
+          </button>
+          <button class="redo-button">
+            <span class="material-symbols-outlined">
+              redo 
+            </span>
+            <span class="text">Redo</span>
+          </button>
+          <a class="change-photo" href="color-change.php?step=1">Change Your Photo</a>
+        </div>
+        <div class="visualizer-canvas-container">
+          <canvas id="visualizer-canvas"></canvas>
+          <canvas id="zoomCanvas" class="hide"></canvas>
+        </div>
       </div>
     </div>
-  </div>
 
   </div>
 

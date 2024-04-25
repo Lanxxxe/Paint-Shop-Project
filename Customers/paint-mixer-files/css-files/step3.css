@@ -208,6 +208,25 @@
   filter: brightness(0.95);
 }
 
+.saved-colors > .type-color {
+  width: 90%;
+  align-items: center;
+}
+
+.color-info-container {
+  flex: 1;
+}
+
+.delete-color-btn > span.material-symbols-outlined {
+  color: #ffffff;
+  background-color: rgb(165, 6, 6);
+  cursor: pointer;
+  font-weight: 900;
+  font-size: 20px !important;
+  border-radius: 50%;
+  padding: 6px;
+}
+
 #zoomCanvas {
   position: absolute;
   border-radius: 50%;
@@ -227,4 +246,8 @@
   cursor: pointer;
   font-size: 32px;
   color: #ccc;
+}
+
+.delete-color-btn > span.material-symbols-outlined:hover {
+  filter: brightness(0.9);
 }
