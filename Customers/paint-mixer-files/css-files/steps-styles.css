@@ -221,6 +221,10 @@
     height: 45px;
 }
 
+.picked-curated-pallets > span {
+    border: 1px solid black;
+}
+
 
 
 /* Step 2- Browse Colors */
@@ -255,7 +259,7 @@
     gap: 10px;
 }
 
-#circle-colors-container>span {
+#circle-colors-container>span{
     position: relative;
     width: 57px;
     height: 57px;
@@ -264,12 +268,17 @@
 }
 
 #circle-colors-container>span:hover,
-#square-colors-container>span:hover {
+#square-colors-container>span:hover,
+.retreater-spans, 
+.weaver-spans, 
+.commoner-spans, 
+.brave-spans
+ {
     box-shadow: 2px 2px 4px #979797;
     cursor: pointer;
 }
 
-#circle-colors-container>span:hover::after {
+#circle-colors-container>span:hover::after, #square-colors-container>span:hover::after, .retreater-spans:hover::after, .weaver-spans:hover::after, .commoner-spans:hover::after, .brave-spans:hover::after {
     position: absolute;
     content: "✓";
     font-size: 1.4rem;
@@ -293,7 +302,7 @@
     border-radius: 100%;
 }
 
-#square-colors-container {
+#square-colors-container, .curated-pallets-container  {
     display: flex;
     align-items: start;
     justify-content: start;
@@ -302,7 +311,12 @@
     margin-top: 3rem;
 }
 
-#square-colors-container>span {
+
+.picked-curated-pallets > span {
+    background-color: red;
+}
+
+#square-colors-container>span, .retreater-spans, .weaver-spans, .commoner-spans, .brave-spans {
     width: 96px;
     height: 59px;
     border-radius: 3px;

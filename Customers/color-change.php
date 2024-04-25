@@ -1,6 +1,6 @@
 <?php
 
-$valid_steps = ["1", "2", "2a", "2b", "3", "4"];
+$valid_steps = ["1", "2", "2a", "2b", "2c", "3", "4"];
 $step = filter_input(INPUT_GET, "step", FILTER_SANITIZE_SPECIAL_CHARS);
 
 if (!empty($step) && !in_array($step, $valid_steps)) {
@@ -218,7 +218,9 @@ if (isset($_GET['update_id'])) {
                         include_once("./paint-mixer-files/step2-browse-color.php");
                     } else if ($step === "2b") {
                         include_once("./paint-mixer-files/step2-curated-color.php");
-                    } else if ($step === "3") {
+                    } else if ($step === "2c") {
+                        include_once("./paint-mixer-files/step2-curate-choice.php");
+                    }else if ($step === "3") {
                         include_once("./paint-mixer-files/step3.php");
                     } else if ($step === "4") {
                         include_once("./paint-mixer-files/step4.php");

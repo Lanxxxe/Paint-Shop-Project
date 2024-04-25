@@ -9,7 +9,7 @@
             <h1>View Curated Color</h1>    
             
             <div class="pick-curated-color">
-                <div>
+                <div class="retreater-container">
                     <div class="retreater-pallet">
                         <span></span>
                         <span></span>
@@ -20,7 +20,7 @@
                     <img src="https://visualizecolor.blob.core.windows.net/voc/collectionimages/retreater.jpg" alt="Color Pallets">
                     <span>The Retreater</span>
                 </div>
-                <div>
+                <div class="weaver-container">
                     <div class="weaver-pallet">
                         <span></span>
                         <span></span>
@@ -31,7 +31,7 @@
                     <img src="https://visualizecolor.blob.core.windows.net/voc/collectionimages/dream_weaver.jpg" alt="Curated Photos">
                     <span>The Dream Weaver</span>
                 </div>
-                <div>
+                <div class="commoner-container">
                     <div class="commoner-pallet">
                         <span></span>
                         <span></span>
@@ -42,7 +42,7 @@
                     <img src="https://visualizecolor.blob.core.windows.net/voc/collectionimages/commoner.jpg" alt="Search Icon">
                     <span>The Commoner</span>
                 </div>
-                <div>
+                <div class="brave-container">
                     <div class="brave-pallet">
                         <span></span>
                         <span></span>

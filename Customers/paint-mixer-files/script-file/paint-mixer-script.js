@@ -132,6 +132,14 @@ const getCuratedColors = (spanContainers, curatedSet, curatedPosition) => {
     spanContainers.forEach((span, index) => {
         span.style.background = curatedSet[curatedPosition][index];
 
+    })
+}
+
+const displayCuratedShades = (spanContainers, curatedSet, curatedPosition) => {
+    //  Loop through the span container
+    spanContainers.forEach((span, index) => {
+        span.style.background = curatedSet[curatedPosition][index];
+
         
     })
 }
@@ -140,13 +148,62 @@ const displayCuratedColor = () => {
     getColors('./paint-mixer-files/script-file/curated-pallet.json')
         .then(response => {  
             
+            var retreaterContainer = document.querySelector('.retreater-container');
+            var weaverContainer = document.querySelector('.weaver-container');
+            var commonerContainer = document.querySelector('.commoner-container');
+            var braveContainer = document.querySelector('.brave-container');
+            var curatedPalletsContainer = document.querySelector('.picked-curated-pallets');
             var curatedColors = Object.values(response);
+            
             // Generate colors on the span containers
             getCuratedColors(document.querySelectorAll('.retreater-pallet span'), curatedColors, 0);
             getCuratedColors(document.querySelectorAll('.weaver-pallet span'), curatedColors, 1);
             getCuratedColors(document.querySelectorAll('.commoner-pallet span'), curatedColors, 2);
-            getCuratedColors(document.querySelectorAll('.brave-pallet span'), curatedColors, 3);
-    });   
+            getCuratedColors(document.querySelectorAll('.brave-pallet span'), curatedColors, 3);  
+            
+            getCuratedColors(document.querySelectorAll('.retreater-spans'), curatedColors, 0);
+            getCuratedColors(document.querySelectorAll('.weaver-spans'), curatedColors, 1);
+            getCuratedColors(document.querySelectorAll('.commoner-spans'), curatedColors, 2);
+            getCuratedColors(document.querySelectorAll('.brave-spans'), curatedColors, 3);
+            
+            try {
+                retreaterContainer.addEventListener('click', () => {
+                    try{
+                        window.location.href = 'color-change.php?step=2c&curate=retreater';
+                        
+                    } catch (error){
+                        alert(`Error: ${error}`);
+                    }
+                });
+                weaverContainer.addEventListener('click', () => {
+                    try{
+                        window.location.href = 'color-change.php?step=2c&curate=weaver';
+                        
+                    } catch (error){
+                        alert(`Error: ${error}`);
+                    }
+                });
+                commonerContainer.addEventListener('click', () => {
+                    try{
+                        window.location.href = 'color-change.php?step=2c&curate=commoner';
+                        
+                    } catch (error){
+                        alert(`Error: ${error}`);
+                    }
+                });
+                braveContainer.addEventListener('click', () => {
+                    try{
+                        window.location.href = 'color-change.php?step=2c&curate=brave';
+                        
+                    } catch (error){
+                        alert(`Error: ${error}`);
+                    }
+                });
+            } catch (error) {
+                console.log(`An error occur: ${error}`);
+            }
+
+        });   
 }
 
 const gotoStep2 = (link, roomType) => {
