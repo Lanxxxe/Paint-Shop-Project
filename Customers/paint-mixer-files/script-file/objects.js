@@ -303,11 +303,14 @@ function createVisualizer() {
   // When the object is hovered this will execute
   function hoverEffect(event) {
     const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+    const mouseX = Math.floor(event.clientX - rect.left);
+    const mouseY = Math.floor(event.clientY - rect.top);
     const pixelIndex = (mouseY * canvas.width + mouseX) * 4;
-
     render();
+    // const r = defaultPixelData[pixelIndex];
+    // const g = defaultPixelData[pixelIndex+1];
+    // const b = defaultPixelData[pixelIndex+2];
+    const a = defaultPixelData[pixelIndex+3];
 
     zoomCanvas.classList.remove("hide");
     zoomCanvas.style.left = event.clientX - zw * 4 + 'px';
@@ -320,7 +323,7 @@ function createVisualizer() {
     zoomCtx.putImageData(zoomPixelData, 0, 0);
 
     // If alpha or opacity is greater than 235 (opaque), prevent hover
-    if (defaultPixelData[pixelIndex + 3] >= objectOpacity) {
+    if (a >= objectOpacity) {
       return;
     }
 
