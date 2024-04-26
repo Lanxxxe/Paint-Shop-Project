@@ -3,6 +3,8 @@ const bedRoomContainer = document.querySelector('#bedroom-container');
 const livingRoomContainer = document.querySelector('#living-room-container');
 const allPallets = document.querySelector('.all-pallet');
 const curatedPallets = document.querySelector('.curated-pallet');
+const searchColor = document.querySelector('.search-pallet');
+const paintRoomButton = document.querySelector('.paint-the-room');
 const searchPallets = document.querySelector('.search-pallet');
 
 
@@ -249,5 +251,15 @@ document.addEventListener("DOMContentLoaded", () => {
             window.location.href = 'color-change.php?step=2b';
 
         });
+    }
+    if (paintRoomButton) {
+        paintRoomButton.addEventListener('click', () => {
+            window.location.href = 'color-change.php?step=3';
+        })
+    }
+    if (searchColor) {
+        searchColor.addEventListener('click', () => {
+            window.location.href = 'color-change.php?step=2d'
+        })
     }
 })

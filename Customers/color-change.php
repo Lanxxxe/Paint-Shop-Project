@@ -1,6 +1,6 @@
 <?php
 
-$valid_steps = ["1", "2", "2a", "2b", "2c", "3", "4"];
+$valid_steps = ["1", "2", "2a", "2b", "2c", "2d", "3", "4"];
 $step = filter_input(INPUT_GET, "step", FILTER_SANITIZE_SPECIAL_CHARS);
 
 if (!empty($step) && !in_array($step, $valid_steps)) {
@@ -80,12 +80,16 @@ if (isset($_GET['update_id'])) {
     <link rel="stylesheet" type="text/css" href="./font-awesome/css/font-awesome.min.css" />
     <link rel="stylesheet" type="text/css" href="./css/local.css" />
 
-
+    <!-- HTMX -->
+    <script src="https://unpkg.com/htmx.org@1.9.12" integrity="sha384-ujb1lZYygJmzgSwoxRggbCHcjc0rB2XoQrxeTUQyRjrOnlCoYta87iKBWq3EsdM2" crossorigin="anonymous"></script>
+    
+    <!-- Step 3 -> Object/Image -->
     <script type="text/javascript" src="./paint-mixer-files/script-file/objects.js" defer></script>
     
     <!-- step1 and step 2 -->
     <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/steps-styles.css">
     <script type="text/javascript" src="./paint-mixer-files/script-file/paint-mixer-script.js" defer></script>
+    <script type="text/javascript" src="./paint-mixer-files/script-file/searchFunction.js" ></script>
     
     <!-- step3 -->
     <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/step3.css">
@@ -226,7 +230,9 @@ if (isset($_GET['update_id'])) {
                         include_once("./paint-mixer-files/step2-curated-color.php");
                     } else if ($step === "2c") {
                         include_once("./paint-mixer-files/step2-curate-choice.php");
-                    }else if ($step === "3") {
+                    } else if ($step === "2d") {
+                        include_once("./paint-mixer-files/step2-search.php");
+                    } else if ($step === "3") {
                         include_once("./paint-mixer-files/step3.php");
                     } else if ($step === "4") {
                         include_once("./paint-mixer-files/step4.php");
