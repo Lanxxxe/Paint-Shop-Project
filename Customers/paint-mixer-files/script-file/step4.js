@@ -68,5 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
   const saveProjectButton = document.querySelector('.save-project');
-  saveProjectButton.addEventListener('click', () => downloadCanvasImage("painted-project.png"));
+  saveProjectButton.addEventListener('click', saveProject);
+  const tryAgainButton = document.querySelector('.try-again');
+  tryAgainButton.addEventListener('click', () => {
+    localStorage.removeItem('room');
+    localStorage.removeItem('pickedColors');
+    localStorage.removeItem('editedRoom');
+    window.location.href = "color-change.php?step=1";
+  });
 });

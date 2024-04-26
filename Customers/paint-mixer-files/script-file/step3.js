@@ -152,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
     redoButton.addEventListener('click', visualizer.redo);
     orderPaint.addEventListener('click', visualizer.order);
     savedMoreColor.addEventListener('click', () => {window.location.href="color-change.php?step=2"});
-    saveProjectButton.addEventListener('click', () => downloadCanvasImage("painted-project.png"));
+    saveProjectButton.addEventListener('click', saveProject);
 
   } catch (err) {
     console.log(err);

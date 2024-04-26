@@ -314,6 +314,7 @@ function createVisualizer() {
     zoomCanvas.style.top = event.clientY - 100 + 'px';
     zoomCanvas.width = zw;
     zoomCanvas.height = zh;
+
     const zoomPixelData = ctx.getImageData(mouseX - 3, mouseY - 3, zw, zh);
     zoomCtx.clearRect(0, 0, zoomCanvas.width, zoomCanvas.height);
     zoomCtx.putImageData(zoomPixelData, 0, 0);
@@ -328,7 +329,7 @@ function createVisualizer() {
       if (obj.isPointed(mouseX, mouseY)) {
         clearCanvas();
         drawObjects();
-        RoomObject.drawRoomObject(ctx, obj, "rgba(70,70,255,0.3)");
+        RoomObject.drawRoomObject(ctx, obj, "rgba(140,140,255,0.6)");
         ctx.drawImage(img, 0, 0);
       }
     });

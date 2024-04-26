@@ -15,7 +15,7 @@
 
 .outcome-container {
   display: flex;
-  margin: 80px 40px;
+  margin: 40px 40px;
 }
 
 .outcome-container > div:first-child {
@@ -23,15 +23,15 @@
 }
 
 .ordered-color {
-  width: 240px;
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
   padding: 10px;
   border-radius: 4px;
-  margin-bottom: 6px;
-  box-shadow: 0 4px 8px rgba(0,0,0,0.6);
+  margin-bottom: 8px;
+  box-shadow: 0 1px 8px rgba(0,0,0,0.6);
 }
 
 .ordered-color .color-name {
@@ -44,3 +44,34 @@
   font-weight: lighter;
 }
 
+.controls {
+  display: flex;
+}
+
+.controls > div {
+  width: 155px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+
+.try-again {
+  background-color: #0095f8;
+  margin-right: 12px;
+}
+
+.step4-container .visualizer-canvas-container {
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+
+.step4-container .share {
+  margin: 6px 2px;
+}
+
+.step4-container .head {
+  background-color: rgb(53, 53, 53);
+  width: 100%;
+}
