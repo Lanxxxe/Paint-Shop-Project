@@ -233,7 +233,7 @@ function createVisualizer() {
 
   const zw = 7, zh = 7;
   const zoomCanvas = document.getElementById("zoomCanvas");
-  const zoomCtx = zoomCanvas.getContext("2d");
+  const zoomCtx = zoomCanvas?.getContext("2d");
 
   /**
    * @var defaultPixelData use to store the default image data to use later
@@ -303,23 +303,27 @@ function createVisualizer() {
   // When the object is hovered this will execute
   function hoverEffect(event) {
     const rect = canvas.getBoundingClientRect();
-    const mouseX = event.clientX - rect.left;
-    const mouseY = event.clientY - rect.top;
+    const mouseX = Math.floor(event.clientX - rect.left);
+    const mouseY = Math.floor(event.clientY - rect.top);
     const pixelIndex = (mouseY * canvas.width + mouseX) * 4;
-
     render();
+    // const r = defaultPixelData[pixelIndex];
+    // const g = defaultPixelData[pixelIndex+1];
+    // const b = defaultPixelData[pixelIndex+2];
+    const a = defaultPixelData[pixelIndex+3];
 
     zoomCanvas.classList.remove("hide");
     zoomCanvas.style.left = event.clientX - zw * 4 + 'px';
     zoomCanvas.style.top = event.clientY - 100 + 'px';
     zoomCanvas.width = zw;
     zoomCanvas.height = zh;
+
     const zoomPixelData = ctx.getImageData(mouseX - 3, mouseY - 3, zw, zh);
     zoomCtx.clearRect(0, 0, zoomCanvas.width, zoomCanvas.height);
     zoomCtx.putImageData(zoomPixelData, 0, 0);
 
     // If alpha or opacity is greater than 235 (opaque), prevent hover
-    if (defaultPixelData[pixelIndex + 3] >= objectOpacity) {
+    if (a >= objectOpacity) {
       return;
     }
 
@@ -328,7 +332,7 @@ function createVisualizer() {
       if (obj.isPointed(mouseX, mouseY)) {
         clearCanvas();
         drawObjects();
-        RoomObject.drawRoomObject(ctx, obj, "rgba(70,70,255,0.3)");
+        RoomObject.drawRoomObject(ctx, obj, "rgba(140,140,255,0.6)");
         ctx.drawImage(img, 0, 0);
       }
     });
@@ -417,4 +421,75 @@ function createVisualizer() {
     render,
     fillImage,
   };
+}
+
+
+function downloadCanvasImage(img_name) {
+  const canvas = document.getElementById("visualizer-canvas");
+  const dataURL = canvas.toDataURL();
+
+  const link = document.createElement('a');
+  link.href = dataURL;
+  link.download = img_name;
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+}
+
+function downloadJSON(jsonName, jsonData) {
+  console.log(jsonData);
+  const blob = new Blob([JSON.stringify(jsonData)], { type: 'application/json' });
+
+  const link = document.createElement('a');
+  link.href = window.URL.createObjectURL(blob);
+  link.download = jsonName;
+  document.body.appendChild(link);
+
+  link.click();
+
+  document.body.removeChild(link);
+}
+
+function saveProject() {
+  const jsonData = {
+    'pickedColors': localStorage.getItem('pickedColors'),
+    'room': localStorage.getItem('room'),
+    'editedRoom': localStorage.getItem('editedRoom'),
+  }
+
+  const filteredData = {};
+  for (const key in jsonData) {
+    if (jsonData.hasOwnProperty(key) && jsonData[key] !== undefined) {
+      filteredData[key] = jsonData[key];
+    }
+  }
+
+  downloadJSON("data.json", filteredData);
+  downloadCanvasImage("painted-project.png");
+}
+
+function loadProjectFromJSON(jsonData) {
+  const parsedData = JSON.parse(jsonData);
+
+  const pickedColors = parsedData.pickedColors;
+  const room = parsedData.room;
+  const editedRoom = parsedData.editedRoom;
+
+  localStorage.setItem('pickedColors', pickedColors);
+  localStorage.setItem('room', room);
+  localStorage.setItem('editedRoom', editedRoom);
+}
+
+function handleFileInputChange(event) {
+  const file = event.target.files[0];
+  const reader = new FileReader();
+
+  reader.addEventListener('load', function (event) {
+    const jsonData = event.target.result;
+    loadProjectFromJSON(jsonData);
+  }, { once:true });
+
+  reader.readAsText(file);
 }

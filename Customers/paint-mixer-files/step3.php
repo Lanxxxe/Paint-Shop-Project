@@ -36,8 +36,17 @@
         </div>
         <div class="visualizer-canvas-container">
           <canvas id="visualizer-canvas"></canvas>
-          <canvas id="zoomCanvas" class="hide"></canvas>
+          <canvas id="zoomCanvas" class="hide">
+          </canvas>
         </div>
+      </div>
+
+      <div class="share">
+        <span class="label">SHARE:</span>
+        <?php
+          include_once "images/facebookIcon.php";
+          include_once "images/pinterestIcon.php";
+        ?>
       </div>
     </div>
 

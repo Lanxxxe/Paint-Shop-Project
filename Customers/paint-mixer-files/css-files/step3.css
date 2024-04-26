@@ -8,11 +8,18 @@
   --btn-font-blue: #0095F8;
 }
 
-.step3-container {
-  font-family: "Helvetica Neue", Helvetica, sans-serif;
-  border: 1px solid #ccc;
+.main-container.step3-container {
+  overflow: hidden;
+  max-width: 1200px;
+  margin: auto;
   max-height: 800px;
+  border: 1px solid rgba(179, 179, 179, 0.514);
+  box-shadow: 0 0 10px rgba(179, 179, 179, 0.8);
   border-radius: 2rem;
+}
+
+.step3-container {
+  font-family: Roboto, "Helvetica Neue", Helvetica, sans-serif;
 }
 
 .room-editor-container {
@@ -46,7 +53,8 @@
   flex-direction: column;
   border-left: 1px solid #ccc;
   align-items: center;
-  height: 720px;
+  height: 100%;
+  width: 100%;
 }
 
 
@@ -60,7 +68,6 @@
 
 .room-visualizer {
   max-width: 700px;
-  max-height: 480px;
   border: 1px solid #ccc;
   display: flex;
   flex-direction: column;
@@ -152,7 +159,8 @@
 }
 
 .cml-button {
-  min-width: 190px;
+  max-width: 190px;
+  margin: 0 auto;
   height: 50px;
   border: none;
   text-align: center;
@@ -180,15 +188,22 @@
   border-bottom: 1px solid #ccc;
   padding: 20px 0;
   text-align: center;
-  width: 460px;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .rsb-container-1 {
   margin-top: 20px;
+  text-align: center;
 }
 
-.canvas-control *:hover,
-.cml-button:hover {
+.add-color-container {
+  width: fit-content;
+}
+
+.canvas-control *:hover {
   background-color: #f2f2f2;
   color: #0084c9;
 }
@@ -225,6 +240,7 @@
   font-size: 20px !important;
   border-radius: 50%;
   padding: 6px;
+  position: relative;
 }
 
 #zoomCanvas {
@@ -250,4 +266,72 @@
 
 .delete-color-btn > span.material-symbols-outlined:hover {
   filter: brightness(0.9);
+}
+
+
+.main-container.step3-container .progress-container {
+  width: 90%;
+}
+
+
+.main-container.step3-container .choosen-color-container {
+  width: 10%;
+}
+
+.right-side-bar > *{
+  width: 100% !important;
+}
+
+.colors.picked-container {
+  min-height: 450px;
+  height: 46%;
+  overflow-y: auto;
+}
+
+
+.step3-container .progress-bar,
+.step3-container .color-picked-container {
+  max-height: 78px;
+}
+
+
+
+.svg-icon {
+  width: 30px;
+  transition: all 300ms;
+}
+
+.facebook.svg-icon {
+  background-color: #4267B2;
+  fill: white;
+}
+
+.pinterest.svg-icon {
+  background-color: #E60023;
+  fill: white;
+}
+
+.facebook.svg-icon:hover {
+  fill: #4267B2;
+  background-color: white;
+}
+
+.pinterest.svg-icon:hover {
+  fill: #E60023;
+  background-color: white;
+}
+
+.share>.label {
+  font-size: 12px;
+  color: #838383;
+}
+
+.share {
+  display: flex;
+  align-items: flex-start;
+  gap: 3px;
+}
+
+.step3-container .share {
+  margin-top: 10px;
 }
