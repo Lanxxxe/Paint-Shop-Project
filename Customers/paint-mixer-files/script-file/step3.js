@@ -35,6 +35,8 @@ function displayPickedColors2(visualizer, pickedColors) {
     delete pickedColors[colorName];
     localStorage.setItem('pickedColors', JSON.stringify(pickedColors));
     displayPickedColors2(visualizer, pickedColors);
+    const orderCount = Object.values(pickedColors).length;
+    updateOrderCount(orderCount);
   }
 
   const ordersContainer = document.querySelector('.colors.picked-container');
@@ -89,6 +91,11 @@ function displayPickedColors2(visualizer, pickedColors) {
   });
 }
 
+function updateOrderCount(pickedColorsLen) {
+  const orderCountElem = document.querySelector('#order-count');
+  orderCountElem.textContent = pickedColorsLen;
+}
+
 
 document.addEventListener('DOMContentLoaded', function () {
   if (!document.querySelector('.step3-container')) {
@@ -116,16 +123,26 @@ document.addEventListener('DOMContentLoaded', function () {
       return;
     }
 
-    const orderCountElem = document.querySelector('#order-count');
-    orderCountElem.textContent = pickedColorsLen;
+    updateOrderCount(pickedColorsLen);
 
     const resetButton = document.querySelector('.reset-button');
     const undoButton = document.querySelector('.undo-button');
     const redoButton = document.querySelector('.redo-button');
     const orderPaint = document.querySelector('.order-paint');
+    const savedMoreColor = document.querySelector('.add-color-container');
+    const saveProjectButton = document.querySelector('.save-project');
 
     displayPickedColors2(visualizer, pickedColors);
-    visualizer.setImage(room);
+
+    visualizer.setImage(room)
+      .then(() => {
+        const roomData = JSON.parse(localStorage.getItem('editedRoom'));
+        visualizer.fillImage(roomData.objects);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+    
     visualizer.canvas.addEventListener('mousemove', visualizer.hoverEffect);
     visualizer.canvas.addEventListener('mouseout', visualizer.hoverOff);
     visualizer.canvas.addEventListener('click', visualizer.fillObject);
@@ -134,6 +151,9 @@ document.addEventListener('DOMContentLoaded', function () {
     undoButton.addEventListener('click', visualizer.undo);
     redoButton.addEventListener('click', visualizer.redo);
     orderPaint.addEventListener('click', visualizer.order);
+    savedMoreColor.addEventListener('click', () => {window.location.href="color-change.php?step=2"});
+    saveProjectButton.addEventListener('click', () => downloadCanvasImage("painted-project.png"));
+
   } catch (err) {
     console.log(err);
   }

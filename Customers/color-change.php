@@ -92,6 +92,7 @@ if (isset($_GET['update_id'])) {
     <script type="text/javascript" src="./paint-mixer-files/script-file/step3.js" defer></script>
 
     <!-- step4 -->
+    <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/step4.css">
     <script type="text/javascript" src="./paint-mixer-files/script-file/step4.js" defer></script>
 
     <script type="text/javascript" src="./js/jquery-1.10.2.min.js"></script>
