@@ -13,7 +13,7 @@
                 <i class="bi bi-search"></i>
                 <input type="text" id="searchInput" oninput="search()" onfocus="focus()" placeholder="Search by color name ">
             </div>
-            <h3 id="result-title">Search Result</h3>
+            <h3 id="result-title"></h3>
             <div id="searchResults">
                 
             </div>

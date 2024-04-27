@@ -89,7 +89,7 @@ const displayColorShades = (activeBaseColor) => {
                     NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
                     displayPickedColors();
                     localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
-                })
+                });
             }
         });
 };
@@ -139,9 +139,29 @@ const getCuratedColors = (spanContainers, curatedSet, curatedPosition) => {
 
 const displayCuratedShades = (spanContainers, curatedSet, curatedPosition) => {
     //  Loop through the span container
+    document.querySelector('#curate-Name').innerHTML = curatedSet;
     spanContainers.forEach((span, index) => {
         span.style.background = curatedSet[curatedPosition][index];
+        console.log(curatedSet[curatedPosition][index]);
 
+        try {
+            span.addEventListener('click', () => {
+                // Toggle the 'picked-color' class
+                span.classList.toggle('picked-color');
+                // If the color is picked, add it to the listOfOrders object
+                if (span.classList.contains('picked-color')) {
+                    listOfOrders[`${curatedSet}${index}`] = curatedSet[curatedPosition][index];
+                } else {
+                    // If the color is unpicked, remove it from the listOfOrders object
+                    delete listOfOrders[`${curatedSet}${index}`];
+                }
+                NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
+                displayPickedColors();
+                localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
+            });
+        } catch (error) {
+            alert(error)
+        }
         
     })
 }
@@ -210,8 +230,6 @@ const displayCuratedColor = () => {
 
 const gotoStep2 = (link, roomType) => {
     window.location.href = link;
-
-    let imageLocation = `./paint-mixer-files/images/${roomType}.png`;
     let typeOfRoom = roomType;
     currentImage = roomType;
     localStorage.setItem('room', typeOfRoom);
@@ -220,6 +238,102 @@ const gotoStep2 = (link, roomType) => {
 const browseColorCollection = (link) => {
     window.location.href = link;
 }
+
+// Search function 
+const search = () => {
+    // Get the search query entered by the user
+    var query = document.getElementById("searchInput").value.toLowerCase();
+    var searchText = document.querySelector('#result-title');
+
+    if (query.trim() === '') {
+      // Clear search results if search query is empty
+      clearResults();
+      return;
+    }
+
+    // Fetch data from JSON file
+    fetch('./paint-mixer-files/script-file/colors.json') // Assuming your JSON file is named colors.json
+      .then(response => response.json())
+      .then(data => {
+        // Filter color names based on search query
+        var matchingColors = [];
+
+        // Iterate over each category
+        Object.keys(data.Colors).forEach(category => {
+            // Iterate over color names in each category
+            Object.keys(data.Colors[category]).forEach(colorName => {
+                // Get the hex code of the color
+                const hexCode = data.Colors[category][colorName];
+                // Check if the color name matches the search query
+                if (colorName.toLowerCase().includes(query)) {
+                    // Add the matching color name along with its hex code to the list
+                    matchingColors.push({ colorName: colorName, hexCode: hexCode });
+                }
+            });
+        });
+
+        // Display search results
+        // var bgContainer = document.querySelector('.bg-here'); 
+        var resultsContainer = document.getElementById("searchResults");
+        resultsContainer.innerHTML = "";
+
+        if (matchingColors.length > 0) {
+            searchText.innerHTML = "Seach Result";
+          // Iterate over each matching color
+            matchingColors.forEach(color => {
+                // Create a new div element for the color result
+                const colorResultDiv = document.createElement('div');
+                colorResultDiv.classList.add('colors-result-container');
+                colorResultDiv.setAttribute('id', color.hexCode);
+
+                // Create the inner HTML for the color result
+                colorResultDiv.innerHTML = `
+                    <div class="bg-here"></div>
+                    <div>
+                        <h4>${color.colorName}</h4>
+                        <p>${color.hexCode}</p>
+                    </div>
+                `;
+
+                // Set the background color of the bg-here div
+                const bgHereDiv = colorResultDiv.querySelector('.bg-here');
+                bgHereDiv.style.backgroundColor = color.hexCode;
+
+                try {
+                    colorResultDiv.addEventListener('click', () => {
+                        colorResultDiv.classList.toggle('picked-color');
+    
+                        if (colorResultDiv.classList.contains('picked-color')) {
+                            listOfOrders[color.colorName] = color.hexCode
+                        } else {
+                            delete listOfOrders[color.colorName];
+                        }
+                        NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
+                        displayPickedColors();
+                        localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
+                    })
+                } catch(err) {
+                    alert(err)
+                }
+                // Append the color result div to the results container
+                resultsContainer.appendChild(colorResultDiv);
+            });
+        } else {
+            searchText.innerHTML = "No Color Found";
+        }
+      })
+      .catch(error => console.error('Error fetching data:', error));
+  }
+
+  const clearResults = () => {
+    // Clear search results
+    document.getElementById("searchResults").innerHTML = "";
+  }
+
+  const focus = () => {
+    document.querySelector('.search-bar').setAttribute('id', 'focus');
+  }
+
 
 document.addEventListener("DOMContentLoaded", () => {
     try {
@@ -263,3 +377,5 @@ document.addEventListener("DOMContentLoaded", () => {
         })
     }
 })
+
+

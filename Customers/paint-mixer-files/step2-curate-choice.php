@@ -12,7 +12,7 @@ $curate = filter_input(INPUT_GET, "curate", FILTER_SANITIZE_SPECIAL_CHARS);
         <div class="browse-colors-container">
             <a href="color-change.php?step=2b">
                 < Explore Different Colors</a>
-                    <h1>Curate Name</h1>
+                    <h1 id="curate-Name"></h1>
 
                     <div class="curated-pallets-container">
                         <?php

@@ -89,7 +89,7 @@ if (isset($_GET['update_id'])) {
     <!-- step1 and step 2 -->
     <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/steps-styles.css">
     <script type="text/javascript" src="./paint-mixer-files/script-file/paint-mixer-script.js" defer></script>
-    <script type="text/javascript" src="./paint-mixer-files/script-file/searchFunction.js" ></script>
+    <!-- <script type="text/javascript" src="./paint-mixer-files/script-file/searchFunction.js" ></script> -->
     
     <!-- step3 -->
     <link rel="stylesheet" type="text/css" href="./paint-mixer-files/css-files/step3.css">
