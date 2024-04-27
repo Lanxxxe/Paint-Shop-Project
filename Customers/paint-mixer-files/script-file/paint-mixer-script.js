@@ -6,6 +6,7 @@ const curatedPallets = document.querySelector('.curated-pallet');
 const searchColor = document.querySelector('.search-pallet');
 const paintRoomButton = document.querySelector('.paint-the-room');
 const searchPallets = document.querySelector('.search-pallet');
+const curateName = document.querySelector('#curate-Name');
 
 
 let listOfOrders = {};
@@ -129,39 +130,41 @@ const displayPickedColors = () => {
 }
 
 
-const getCuratedColors = (spanContainers, curatedSet, curatedPosition) => {
+const getCuratedColors = (spanContainers, curatedSet, curatedPosition, head) => {
     //  Loop through the span container
+    // try {
+    //     curateName.innerHTML = head[curatedPosition];
+    // } catch (err) {
+    //     alert(err)
+    // }
+
     spanContainers.forEach((span, index) => {
         span.style.background = curatedSet[curatedPosition][index];
+        span.addEventListener('click', () => {
+            // alert(`${head[curatedPosition]}, ${curatedSet[curatedPosition][index]}`);
+            // Toggle the 'picked-color' class
+            span.classList.toggle('picked-color');
+            // If the color is picked, add it to the listOfOrders object
+            if (span.classList.contains('picked-color')) {
+                listOfOrders[`${head[curatedPosition]}${index}`] = curatedSet[curatedPosition][index];
+            } else {
+                // If the color is unpicked, remove it from the listOfOrders object
+                delete listOfOrders[`${head[curatedPosition]}${index}`];
+            }
+            NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
+            displayPickedColors();
+            localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
+        });
 
     })
 }
 
 const displayCuratedShades = (spanContainers, curatedSet, curatedPosition) => {
     //  Loop through the span container
-    document.querySelector('#curate-Name').innerHTML = curatedSet;
+    
     spanContainers.forEach((span, index) => {
         span.style.background = curatedSet[curatedPosition][index];
         console.log(curatedSet[curatedPosition][index]);
-
-        try {
-            span.addEventListener('click', () => {
-                // Toggle the 'picked-color' class
-                span.classList.toggle('picked-color');
-                // If the color is picked, add it to the listOfOrders object
-                if (span.classList.contains('picked-color')) {
-                    listOfOrders[`${curatedSet}${index}`] = curatedSet[curatedPosition][index];
-                } else {
-                    // If the color is unpicked, remove it from the listOfOrders object
-                    delete listOfOrders[`${curatedSet}${index}`];
-                }
-                NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
-                displayPickedColors();
-                localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
-            });
-        } catch (error) {
-            alert(error)
-        }
         
     })
 }
@@ -176,17 +179,18 @@ const displayCuratedColor = () => {
             var braveContainer = document.querySelector('.brave-container');
             var curatedPalletsContainer = document.querySelector('.picked-curated-pallets');
             var curatedColors = Object.values(response);
+            var curatedHead = Object.keys(response);
             
             // Generate colors on the span containers
-            getCuratedColors(document.querySelectorAll('.retreater-pallet span'), curatedColors, 0);
-            getCuratedColors(document.querySelectorAll('.weaver-pallet span'), curatedColors, 1);
-            getCuratedColors(document.querySelectorAll('.commoner-pallet span'), curatedColors, 2);
-            getCuratedColors(document.querySelectorAll('.brave-pallet span'), curatedColors, 3);  
+            getCuratedColors(document.querySelectorAll('.retreater-pallet span'), curatedColors, 0, curatedHead);
+            getCuratedColors(document.querySelectorAll('.weaver-pallet span'), curatedColors, 1, curatedHead);
+            getCuratedColors(document.querySelectorAll('.commoner-pallet span'), curatedColors, 2, curatedHead);
+            getCuratedColors(document.querySelectorAll('.brave-pallet span'), curatedColors, 3, curatedHead);  
             
-            getCuratedColors(document.querySelectorAll('.retreater-spans'), curatedColors, 0);
-            getCuratedColors(document.querySelectorAll('.weaver-spans'), curatedColors, 1);
-            getCuratedColors(document.querySelectorAll('.commoner-spans'), curatedColors, 2);
-            getCuratedColors(document.querySelectorAll('.brave-spans'), curatedColors, 3);
+            getCuratedColors(document.querySelectorAll('.retreater-spans'), curatedColors, 0, curatedHead);
+            getCuratedColors(document.querySelectorAll('.weaver-spans'), curatedColors, 1, curatedHead);
+            getCuratedColors(document.querySelectorAll('.commoner-spans'), curatedColors, 2, curatedHead);
+            getCuratedColors(document.querySelectorAll('.brave-spans'), curatedColors, 3, curatedHead);
             
             try {
                 retreaterContainer.addEventListener('click', () => {
@@ -299,8 +303,11 @@ const search = () => {
                 const bgHereDiv = colorResultDiv.querySelector('.bg-here');
                 bgHereDiv.style.backgroundColor = color.hexCode;
 
+                // Append the color result div to the results container
+                resultsContainer.appendChild(colorResultDiv);
                 try {
                     colorResultDiv.addEventListener('click', () => {
+                        // alert(`${color.colorName}, ${color.hexCode}`);
                         colorResultDiv.classList.toggle('picked-color');
     
                         if (colorResultDiv.classList.contains('picked-color')) {
@@ -315,8 +322,6 @@ const search = () => {
                 } catch(err) {
                     alert(err)
                 }
-                // Append the color result div to the results container
-                resultsContainer.appendChild(colorResultDiv);
             });
         } else {
             searchText.innerHTML = "No Color Found";
