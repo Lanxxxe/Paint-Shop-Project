@@ -75,3 +75,8 @@
   background-color: rgb(53, 53, 53);
   width: 100%;
 }
+
+.color-to-by {
+  overflow-y: auto;
+  height: 70%;
+}

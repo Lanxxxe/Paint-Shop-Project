@@ -30,8 +30,8 @@ const createCircleColors = () => {
         .then(response => {
             Object.values(response).forEach(allColors => {
                 Object.entries(allColors).forEach(([baseColor, colorShades]) => {
-                    var colorNavigation = document.querySelector("#circle-colors-container");
-                    var colorName = document.querySelector('#color-name');
+                    const colorNavigation = document.querySelector("#circle-colors-container");
+                    const colorName = document.querySelector('#color-name');
                     let colorCircles = document.createElement('span');
                     colorCircles.style.background = String(baseColor);
                     colorCircles.classList.add('activeBase');
@@ -57,15 +57,15 @@ const createCircleColors = () => {
                     });
                 });
             });
-        });
+        }).catch(error => console.log(error));
 }
 
 
 const displayColorShades = (activeBaseColor) => {
     getColors('./paint-mixer-files/script-file/colors.json')
         .then(response => {
-            var SquareContainer = document.querySelector('#square-colors-container');
-            var NumOfOrders = document.querySelector('#order-count');
+            const SquareContainer = document.querySelector('#square-colors-container');
+            const NumOfOrders = document.querySelector('#order-count');
             // Clear existing color squares
             SquareContainer.innerHTML = '';
 
@@ -89,32 +89,34 @@ const displayColorShades = (activeBaseColor) => {
                     }
                     NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
                     displayPickedColors();
-                    localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
                 });
             }
         });
 };
 
+
+
+
 const displayPickedColors = () => {
-    var ordersContainer = document.querySelector('.picked-container');
+    const ordersContainer = document.querySelector('.picked-container');
     ordersContainer.innerHTML = '';
 
     // Iterate over each entry (colorName, colorCode) in the listOfOrders object
     Object.entries(listOfOrders).forEach(([colorName, colorCode]) => {
 
         // Create the HTML structure for each color entry
-        let colorDiv = document.createElement('div');
+        const colorDiv = document.createElement('div');
         colorDiv.classList.add('saved-colors');
 
-        let typeColorDiv = document.createElement('div');
+        const typeColorDiv = document.createElement('div');
         typeColorDiv.classList.add('type-color');
-        let colorSpan = document.createElement('span');
+        const colorSpan = document.createElement('span');
         colorSpan.style.backgroundColor = colorCode;
-        let colorDetailsDiv = document.createElement('div');
-        let colorNameSpan = document.createElement('span');
+        const colorDetailsDiv = document.createElement('div');
+        const colorNameSpan = document.createElement('span');
         colorNameSpan.textContent = colorName;
 
-        let colorCodeSpan = document.createElement('span');
+        const colorCodeSpan = document.createElement('span');
         colorCodeSpan.textContent = colorCode;
 
         // Append elements to their respective parent elements
@@ -127,6 +129,7 @@ const displayPickedColors = () => {
         // Append the color div to the ordersContainer
         ordersContainer.appendChild(colorDiv);
     });
+    localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
 }
 
 
@@ -139,6 +142,7 @@ const getCuratedColors = (spanContainers, curatedSet, curatedPosition, head) => 
     // }
 
     spanContainers.forEach((span, index) => {
+        const NumOfOrders = document.querySelector('#order-count');
         span.style.background = curatedSet[curatedPosition][index];
         span.addEventListener('click', () => {
             // alert(`${head[curatedPosition]}, ${curatedSet[curatedPosition][index]}`);
@@ -153,7 +157,6 @@ const getCuratedColors = (spanContainers, curatedSet, curatedPosition, head) => 
             }
             NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
             displayPickedColors();
-            localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
         });
 
     })
@@ -306,18 +309,19 @@ const search = () => {
                 // Append the color result div to the results container
                 resultsContainer.appendChild(colorResultDiv);
                 try {
+                    const NumOfOrders = document.querySelector('#order-count');
                     colorResultDiv.addEventListener('click', () => {
                         // alert(`${color.colorName}, ${color.hexCode}`);
                         colorResultDiv.classList.toggle('picked-color');
+                        bgHereDiv.classList.toggle('picked-color');
     
                         if (colorResultDiv.classList.contains('picked-color')) {
                             listOfOrders[color.colorName] = color.hexCode
                         } else {
                             delete listOfOrders[color.colorName];
                         }
-                        NumOfOrders.innerHTML = Object.entries(listOfOrders).length;
+                        NumOfOrders.textContent = Object.entries(listOfOrders).length;
                         displayPickedColors();
-                        localStorage.setItem('pickedColors', JSON.stringify(listOfOrders));
                     })
                 } catch(err) {
                     alert(err)

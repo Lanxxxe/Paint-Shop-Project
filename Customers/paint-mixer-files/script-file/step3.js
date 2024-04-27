@@ -1,4 +1,4 @@
-function clearPickedColors() {
+function clearPickedColors2() {
   const ordersContainer = document.querySelector('.colors.picked-container');
   const len = ordersContainer.children.length;
   for (let i = len-1; i >= 0; --i) {
@@ -18,7 +18,7 @@ function displayPickedColors2(visualizer, pickedColors) {
     return;
   }
   const materialSymbol = "material-symbols-outlined";
-  clearPickedColors();
+  clearPickedColors2();
 
   function setCurrentColor(color, container) {
     visualizer.setColor(color);
