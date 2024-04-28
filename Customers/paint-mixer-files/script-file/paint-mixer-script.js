@@ -134,12 +134,7 @@ const displayPickedColors = () => {
 
 
 const getCuratedColors = (spanContainers, curatedSet, curatedPosition, head) => {
-    //  Loop through the span container
-    // try {
-    //     curateName.innerHTML = head[curatedPosition];
-    // } catch (err) {
-    //     alert(err)
-    // }
+
 
     spanContainers.forEach((span, index) => {
         const NumOfOrders = document.querySelector('#order-count');
@@ -180,7 +175,6 @@ const displayCuratedColor = () => {
             var weaverContainer = document.querySelector('.weaver-container');
             var commonerContainer = document.querySelector('.commoner-container');
             var braveContainer = document.querySelector('.brave-container');
-            var curatedPalletsContainer = document.querySelector('.picked-curated-pallets');
             var curatedColors = Object.values(response);
             var curatedHead = Object.keys(response);
             
@@ -259,10 +253,9 @@ const search = () => {
     }
 
     // Fetch data from JSON file
-    fetch('./paint-mixer-files/script-file/colors.json') // Assuming your JSON file is named colors.json
+    fetch('./paint-mixer-files/script-file/colors.json')
       .then(response => response.json())
       .then(data => {
-        // Filter color names based on search query
         var matchingColors = [];
 
         // Iterate over each category
@@ -280,7 +273,6 @@ const search = () => {
         });
 
         // Display search results
-        // var bgContainer = document.querySelector('.bg-here'); 
         var resultsContainer = document.getElementById("searchResults");
         resultsContainer.innerHTML = "";
 
