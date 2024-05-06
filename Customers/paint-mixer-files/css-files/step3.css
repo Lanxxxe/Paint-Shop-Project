@@ -335,3 +335,58 @@
 .step3-container .share {
   margin-top: 10px;
 }
+
+@media (max-width: 1300px) {
+  .main-container.step3-container {
+    max-width: 1000px;
+    max-height: 700px;
+  }
+  .room-editor-container > .find-more-colors {
+    gap: 5px;
+  }
+  .room-editor-container > .find-more-colors > .material-symbols-outlined{
+    font-size: 18px;
+  }
+  .room-editor-container > .find-more-colors > .text {
+    font-size: 10px;
+  }
+  .room-editor-container > h1 {
+    font-size: 24px;
+  }
+  .room-editor-container > h2 {
+    font-size: 18px;
+  }
+  .room-editor-container {
+    margin: 10px 45px;
+    align-items: flex-end;
+  }
+  .color-picked-container > * {
+    transform: scale(0.8);
+  }
+  .color-picked-container {
+    gap: 0;
+  }
+  .cml-button {
+    width: 120px;
+    height: 40px;
+    font-size: 10px;
+  }
+  .add-color-container span:first-child {
+    font-size: 14px;
+  }
+  .add-color-container span:last-child {
+    font-size: 10px;
+  }
+  .type-color>.picked-color-code {
+    transform: scale(0.7);
+  }
+  .type-color>.color-info-container>span:first-child {
+    font-size: 12px;
+  }
+  .type-color>.color-info-container>span:last-child {
+    font-size: 8px;
+  }
+  .type-color>.delete-color-btn>span {
+    transform: scale(0.7);
+  }
+}

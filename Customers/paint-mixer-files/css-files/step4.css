@@ -80,3 +80,27 @@
   overflow-y: auto;
   height: 70%;
 }
+
+@media (max-width: 1300px) {
+  .step4-container #visualizer-canvas {
+    max-width: 600px;
+    max-height: 300px;
+    object-fit: contain;
+  }
+  .step4-container .right-bar-container {
+    width: 200px;
+  }
+
+  .step4-container .cml-button > span:first-child {
+    font-size: 16px;
+  }
+  .step4-container .cml-button > span:last-child {
+    font-size: 10px;
+  }
+  .step4-container .ordered-color>.color-name {
+    font-size: 14px;
+  }
+  .step4-container .ordered-color>.color-code {
+    font-size: 10px;
+  }
+}
